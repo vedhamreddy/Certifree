@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-brand: #4f46e5;
+  --color-brand-600: #4338ca;
+  --color-free: #10b981;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), var(--font-inter), ui-sans-serif, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --hero-a: #eef2ff;
+  --hero-b: #ecfdf5;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #0b1020;
+    --surface: #111833;
+    --surface-2: #1a2244;
+    --border: #26304f;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --hero-a: #1b1a4a;
+    --hero-b: #0b2a24;
+    color-scheme: dark;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
 }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.hero-bg {
+  background: radial-gradient(1200px 400px at 20% -10%, var(--hero-a), transparent 60%),
+    radial-gradient(900px 400px at 90% 10%, var(--hero-b), transparent 60%);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2), var(--border), var(--surface-2));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+.pop { animation: pop 0.3s ease-out; }

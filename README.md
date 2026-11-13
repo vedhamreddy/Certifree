@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CertiFree
 
-## Getting Started
+Every free certification course in one place. CertiFree lists free courses from companies like Google, Microsoft, AWS, IBM, Cisco, Oracle, Salesforce, Meta and HubSpot, and labels each one by what is really free: the certificate, only the learning, or only until a deadline.
 
-First, run the development server:
+## Features (MVP)
+
+- Search across course titles, companies and skills
+- Filters for what's free, domain, company and level, kept in the URL so searches can be shared
+- Company pages ("All free AWS courses") and course detail pages
+- Bookmarks saved on the device
+- Works on phones: bottom navigation, bottom-sheet filters, installable as a PWA
+- Light and dark mode
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project layout
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/data/companies.ts   companies and their free learning portals
+src/data/courses.ts     seed course catalog, cost and credential labels
+src/lib/filter.ts       search and filtering
+src/lib/bookmarks.ts    bookmarks in localStorage
+src/components/         UI pieces (cards, tags, nav, browse page)
+src/app/                pages: home, courses, companies, saved
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Important: seed data
 
-## Learn More
+The catalog in `src/data/courses.ts` was written from general knowledge to build the UI. Before launch, every course must be checked on the provider's site, given a direct course link, and stamped with `lastVerified`. The "Closing soon" deadlines on the home page are sample dates.
 
-To learn more about Next.js, take a look at the following resources:
+## Next steps
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Verify the seed catalog and add direct course links
+2. Move data to Supabase (Postgres) and add Google sign-in to sync bookmarks
+3. Add ingestion scripts (starting with the Microsoft Learn Catalog API) on a GitHub Actions schedule
+4. Real deadlines and email reminders
