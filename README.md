@@ -9,6 +9,7 @@
 - **Filters** for what's free, domain (AI & ML, Cloud, Cybersecurity, Data, Web dev, DevOps, Programming, CS fundamentals, Networking, Marketing, Career skills), company, platform and level. Filters live in the URL, so a search can be shared as a link
 - **Provider pages** ("Free AWS courses") and **course pages** with a direct link to the course on the provider's site
 - **Saved courses** (bookmarks) stored on the device
+- **My Certificates:** tap "I completed this" on any course (or "Add certificate" for courses from anywhere else) to save the certificate with its completion date, credential ID, verification link and an image or PDF of the certificate. All certificates show on one page, filterable by domain and issuer, and the list can be downloaded as a CSV for a resume or LinkedIn
 - **Mobile first:** bottom navigation, bottom-sheet filters, light and dark mode, installable as an app (PWA)
 - SEO ready: every course and provider page is pre-rendered, with a sitemap and robots.txt
 
@@ -99,16 +100,17 @@ The build fails if a course points to a provider that doesn't exist, so typos ar
 
 ```
 src/
-  app/                 pages: home, courses, courses/[id], providers, providers/[slug], saved
+  app/                 pages: home, courses, courses/[id], providers, providers/[slug], certificates, saved
   components/          Nav, CourseCard, Browse (search + filters), Tags, Logo, ...
   data/                providers.ts, courses.ts
-  lib/                 filter.ts (search + filters), bookmarks.ts (saved courses)
+  lib/                 filter.ts (search + filters), bookmarks.ts (saved courses),
+                       certificates.ts (My Certificates: details in localStorage, files in IndexedDB)
 public/                icons, logo, service worker
 ```
 
 ## Roadmap
 
-1. Accounts with Google sign-in (Supabase) so saved courses sync across devices
+1. Accounts with Google sign-in (Supabase) so saved courses and certificates sync across devices. Until then, they are stored only in the browser where they were added, so clearing browser data removes them
 2. Automatic catalog updates (for example the Microsoft Learn Catalog API) on a GitHub Actions schedule
 3. Deadlines and email reminders for free exam campaigns and NPTEL enrolment
 4. "Report wrong info" button and an admin page for corrections

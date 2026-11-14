@@ -8,6 +8,7 @@ const links = [
   { href: "/", label: "Home", icon: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
   { href: "/courses", label: "Browse", icon: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm10 17l-5-5" },
   { href: "/providers", label: "Providers", icon: "M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M14 9h5a1 1 0 0 1 1 1v11M8 8h2M8 12h2M8 16h2M3 21h18" },
+  { href: "/certificates", label: "Certificates", icon: "M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14l-1.5 7 5-3 5 3-1.5-7" },
   { href: "/saved", label: "Saved", icon: "M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.1 0 3.6 1.1 5.2 3 1.6-1.9 3.1-3 5.2-3 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z" },
 ];
 
@@ -42,7 +43,7 @@ export function Nav() {
           </Link>
         </div>
       </header>
-      <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Main">
+      <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Main">
         {links.map((l) => (
           <Link key={l.href} href={l.href} className={`flex flex-col items-center gap-1 py-2.5 text-xs font-medium ${active(path, l.href) ? "text-brand" : "text-muted"}`}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={l.icon} /></svg>

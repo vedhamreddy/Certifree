@@ -6,6 +6,7 @@ import { courseById, courses, costExplain, credentialLabels, domainLabels, level
 import { ProviderAvatar } from "@/components/ProviderAvatar";
 import { CostTag, CredentialTag } from "@/components/Tags";
 import { BookmarkButton } from "@/components/BookmarkButton";
+import { CompleteCourse } from "@/components/CompleteCourse";
 import { CourseCard, formatHours } from "@/components/CourseCard";
 
 export function generateStaticParams() {
@@ -62,6 +63,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
             Go to course on {company.name} ↗
           </a>
           <BookmarkButton id={course.id} withLabel />
+          <CompleteCourse course={course} />
         </div>
         <p className="mt-4 text-xs text-muted">
           {course.verified ? `Cost and credential checked on the provider's page on ${course.verified}.` : "Link checked; free status taken from the provider's catalog."} Offers change, so confirm on the provider&apos;s site before you enrol.
