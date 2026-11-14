@@ -112,7 +112,21 @@ The build fails if a course points to a provider that doesn't exist, so typos ar
 - Courses marked **✓ Checked** had their cost and credential confirmed on the provider's page that day. For the rest, the free status comes from the provider's catalog and should be re-checked from time to time.
 - Free offers change often (for example, Great Learning now charges for certificates, and Oracle's free exams come in campaigns). Re-check the catalog every few weeks.
 - NPTEL and SWAYAM courses run each semester; links point to a course page, and students enrol in the current run.
-- Write summaries in your own words and link to providers; don't copy their descriptions or logos.
+- Write summaries in your own words and link to providers; don't copy their descriptions.
+
+## Provider logos
+
+Logos live in `public/logos/` (served from this site, never hotlinked) and are mapped in `src/data/logos.ts`. They are shown only to identify each provider next to its name. All trademarks belong to their owners, and showing them doesn't mean the provider endorses CertiFree. If a logo is missing, a letter monogram is shown instead.
+
+| Provider | Source |
+| --- | --- |
+| Cisco, Coursera, Databricks, edX, Fortinet, freeCodeCamp, Google, Great Learning, HubSpot, Infosys, Kaggle, Linux Foundation, Meta, NVIDIA, TCS, Udemy | [Simple Icons](https://simpleicons.org) (icon data CC0; brand colours from Simple Icons) |
+| Microsoft, AWS, IBM, Oracle, Salesforce | Wikimedia Commons: `Microsoft_logo.svg`, `Amazon_Web_Services_Logo.svg`, `IBM_logo.svg`, `Oracle_logo.svg`, `Salesforce.com_logo.svg` (metadata stripped) |
+| NPTEL | nptel.ac.in site logo |
+| SWAYAM | swayam.gov.in site logo |
+| Simplilearn | simplilearn.com app icon |
+
+Before a public launch, check each provider's brand guidelines; several (for example AWS and Microsoft) publish rules for showing their logos.
 
 ## Project layout
 

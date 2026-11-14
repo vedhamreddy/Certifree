@@ -18,7 +18,7 @@ function Grid({ list }: { list: Provider[] }) {
             <div className="flex items-center gap-3">
               <ProviderAvatar slug={c.slug} size="lg" />
               <div className="min-w-0">
-                <div className="font-display text-lg font-bold text-ink transition-colors group-hover:text-accent">{c.name}</div>
+                <div className="truncate font-display text-lg font-bold text-ink transition-colors group-hover:text-accent">{c.name}</div>
                 <div className="truncate text-sm text-muted">{c.kind === "company" ? c.portal : "Learning platform"}</div>
               </div>
             </div>
