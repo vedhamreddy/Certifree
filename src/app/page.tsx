@@ -48,24 +48,24 @@ export default function Home() {
   return (
     <>
       <div className="mx-auto max-w-7xl px-4 pt-2 sm:px-6 lg:px-8">
-        <section className="rounded-3xl bg-surface-2 p-6 sm:p-8">
+        <section className="hero-dark rounded-3xl p-6 text-white sm:p-8">
           <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:items-center">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium text-muted ring-1 ring-inset ring-line">
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80 ring-1 ring-inset ring-white/15">
                 <span className="h-1.5 w-1.5 rounded-full bg-free" />
                 {courses.length} courses · {providers.length} providers · {freeCerts.length} free certificates
               </span>
-              <h1 className="mt-4 font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">Every free certification, in one place.</h1>
-              <p className="mt-2 text-muted">Free courses from Google, Microsoft, AWS, IBM, Cisco, Coursera, edX, NPTEL and more, labeled by what is really free.</p>
+              <h1 className="mt-4 font-display text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl">Every free certification, in one place.</h1>
+              <p className="mt-2 text-white/70">Free courses from Google, Microsoft, AWS, IBM, Cisco, Coursera, edX, NPTEL and more, labeled by what is really free.</p>
             </div>
             <div>
               <SearchBar big />
               <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/courses?cost=free-cert" className="inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-600">
+                <Link href="/courses?cost=free-cert" className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:bg-neutral-200">
                   <BadgeCheck size={15} strokeWidth={2} aria-hidden /> Free certificate only
                 </Link>
                 {(["ai", "cloud", "security", "webdev", "data"] as Domain[]).map((d) => (
-                  <Link key={d} href={`/courses?domain=${d}`} className="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-ink transition hover:bg-white hover:shadow-card">
+                  <Link key={d} href={`/courses?domain=${d}`} className="rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-medium text-white transition hover:bg-white/15">
                     {domainLabels[d]}
                   </Link>
                 ))}

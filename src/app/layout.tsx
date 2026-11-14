@@ -28,10 +28,15 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${manrope.variable}`}>
-      <body className="bg-white font-sans text-ink antialiased lg:bg-bg">
+      <body className="font-sans text-ink antialiased">
+        <div className="app-backdrop" aria-hidden="true">
+          <span className="orb orb-1" />
+          <span className="orb orb-2" />
+          <span className="orb orb-3" />
+        </div>
         <Nav />
         <div className="min-h-dvh lg:py-3 lg:pl-64 lg:pr-3">
-          <div className="min-h-dvh bg-white lg:min-h-[calc(100dvh-1.5rem)] lg:rounded-[28px] lg:shadow-card">
+          <div className="min-h-dvh bg-white/80 lg:min-h-[calc(100dvh-1.5rem)] lg:rounded-[28px] lg:bg-white shell-wash lg:shadow-[0_1px_2px_rgba(0,0,0,0.04),0_30px_60px_-30px_rgba(0,0,0,0.18)] lg:ring-1 lg:ring-black/[0.04]">
           <TopBar />
           <SyncWatcher />
           <main className="pb-24 lg:pb-0">{children}</main>
