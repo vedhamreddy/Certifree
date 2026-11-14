@@ -39,7 +39,7 @@ export function CertificateCard({ cert, onEdit }: { cert: Certificate; onEdit: (
   const known = cert.provider !== "other" && providerBySlug[cert.provider];
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card transition duration-200 hover:border-slate-300 hover:shadow-lift">
+    <article className="group flex flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-card transition duration-200 hover:border-slate-300 hover:shadow-lift">
       <div className="hero-bg relative grid h-40 place-items-center overflow-hidden border-b border-line">
         {isImage && url ? (
           // eslint-disable-next-line @next/next/no-img-element

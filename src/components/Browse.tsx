@@ -67,7 +67,7 @@ export function Browse() {
                   type="button"
                   aria-pressed={on}
                   onClick={() => toggle(g.key, value)}
-                  className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition duration-150 ${on ? "border-brand bg-brand text-white shadow-card" : "border-line bg-white text-ink hover:border-accent/40 hover:bg-accent/[0.04] hover:text-accent"}`}
+                  className={`rounded-full border px-3 py-1.5 text-sm font-medium transition duration-150 ${on ? "border-brand bg-brand text-white shadow-card" : "border-line bg-white text-ink hover:border-accent/40 hover:bg-accent/[0.04] hover:text-accent"}`}
                 >
                   {label}
                 </button>
@@ -95,7 +95,7 @@ export function Browse() {
             <input value={q} onChange={(e) => onSearch(e.target.value)} placeholder="Search by course, company, platform or skill" aria-label="Search courses" className="min-w-0 flex-1 bg-transparent py-3 text-[15px] outline-none placeholder:text-muted" />
             {q && <button type="button" onClick={() => onSearch("")} aria-label="Clear search" className="rounded-md p-1 text-muted transition hover:bg-surface-2 hover:text-ink"><X size={16} strokeWidth={2} aria-hidden /></button>}
           </label>
-          <button type="button" onClick={() => setOpen(true)} className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-card transition hover:bg-surface-2 lg:hidden">
+          <button type="button" onClick={() => setOpen(true)} className="inline-flex shrink-0 items-center gap-2 rounded-full border border-line bg-white px-4 text-sm font-semibold text-ink shadow-card transition hover:bg-surface-2 lg:hidden">
             <SlidersHorizontal size={16} strokeWidth={1.75} aria-hidden /> Filters{activeCount ? ` (${activeCount})` : ""}
           </button>
         </div>
@@ -103,7 +103,7 @@ export function Browse() {
 
       <div className="mt-4 grid gap-8 lg:grid-cols-[260px_1fr]">
         <aside className="hidden lg:block">
-          <div className="sticky top-36 max-h-[calc(100vh-10rem)] overflow-y-auto rounded-2xl border border-line bg-white p-5 shadow-card">{panel}</div>
+          <div className="sticky top-36 max-h-[calc(100vh-10rem)] overflow-y-auto rounded-3xl border border-line bg-white p-5 shadow-card">{panel}</div>
         </aside>
         <section>
           <div className="mb-4 flex items-center justify-between gap-4">
@@ -112,7 +112,7 @@ export function Browse() {
               value={filters.sort}
               onChange={(e) => update((p) => p.set("sort", e.target.value))}
               aria-label="Sort"
-              className="rounded-xl border border-line bg-white px-3 py-2 text-sm font-medium text-ink shadow-card outline-none transition hover:border-slate-300 focus:border-accent/60"
+              className="rounded-full border border-line bg-white px-3 py-2 text-sm font-medium text-ink shadow-card outline-none transition hover:border-slate-300 focus:border-accent/60"
             >
               <option value="relevance">Most relevant</option>
               <option value="short">Shortest first</option>
@@ -124,7 +124,7 @@ export function Browse() {
               {results.map((c) => <CourseCard key={c.id} course={c} />)}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-line bg-surface-2 px-6 py-14 text-center">
+            <div className="rounded-3xl border border-dashed border-line bg-surface-2 px-6 py-14 text-center">
               <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-xl bg-white text-muted shadow-card ring-1 ring-inset ring-line"><SearchX size={22} strokeWidth={1.75} aria-hidden /></span>
               <p className="font-semibold text-ink">No courses match these filters.</p>
               <p className="mt-1 text-muted">Try removing a filter or searching for something broader, like &quot;cloud&quot;.</p>
@@ -139,7 +139,7 @@ export function Browse() {
           <div className="sheet-in absolute inset-x-0 bottom-0 max-h-[80vh] overflow-y-auto rounded-t-2xl bg-white p-5 pb-8 shadow-pop">
             <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-slate-300" />
             {panel}
-            <button type="button" onClick={() => setOpen(false)} className="mt-6 w-full rounded-xl bg-brand py-3.5 font-semibold text-white transition hover:bg-brand-600 active:scale-[0.99]">
+            <button type="button" onClick={() => setOpen(false)} className="mt-6 w-full rounded-full bg-brand py-3.5 font-semibold text-white transition hover:bg-brand-600 active:scale-[0.99]">
               Show {results.length} courses
             </button>
           </div>

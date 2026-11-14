@@ -247,13 +247,13 @@ export default function SyncPage() {
       <p className="mt-2 text-muted">Optional. CertiFree works fully on this device without an account. Turn sync on only for what you want on your other devices.</p>
 
       {!me.signedIn ? (
-        <div className="mt-8 rounded-2xl border border-line bg-white p-6 shadow-card sm:p-8">
+        <div className="mt-8 rounded-3xl border border-line bg-white p-6 shadow-card sm:p-8">
           <ul className="space-y-3 text-sm text-ink">
             <li className="flex gap-3"><LockKeyhole size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden />Your synced data is private to you. Certificates are never shown publicly, and CertiFree doesn&apos;t verify or vouch for them.</li>
             <li className="flex gap-3"><CloudUpload size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden />Nothing on this device is uploaded when you sign in. You&apos;ll choose what to sync and preview every change first.</li>
             <li className="flex gap-3"><ShieldCheck size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden />You can export or delete everything from your account page at any time.</li>
           </ul>
-          <Link href="/auth/sign-in?next=/sync" className="mt-6 inline-flex h-11 items-center rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600">Sign in to sync</Link>
+          <Link href="/auth/sign-in?next=/sync" className="mt-6 inline-flex h-11 items-center rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600">Sign in to sync</Link>
         </div>
       ) : (
         <>
@@ -262,7 +262,7 @@ export default function SyncPage() {
               <AlertTriangle size={16} className="mt-0.5 shrink-0" aria-hidden /> Sync on this device was set up for a different account, so it&apos;s paused. Choose below to set it up for this account.
             </p>
           )}
-          <section className="mt-8 rounded-2xl border border-line bg-white p-6 shadow-card">
+          <section className="mt-8 rounded-3xl border border-line bg-white p-6 shadow-card">
             <h2 className="font-display text-lg font-bold text-ink">What to sync from this device</h2>
             <p className="mt-1 text-sm text-muted">Nothing is uploaded until you review the changes and press Apply.</p>
             <ul className="mt-5 divide-y divide-line">
@@ -289,11 +289,11 @@ export default function SyncPage() {
               })}
             </ul>
             <div className="mt-6 flex flex-wrap gap-2">
-              <button type="button" disabled={!anyCat || phase === "loading" || phase === "applying"} onClick={preview} className="inline-flex h-11 items-center gap-2 rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50">
+              <button type="button" disabled={!anyCat || phase === "loading" || phase === "applying"} onClick={preview} className="inline-flex h-11 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50">
                 {phase === "loading" ? <Loader2 size={16} className="animate-spin" aria-hidden /> : <RefreshCw size={16} strokeWidth={1.75} aria-hidden />} Preview changes
               </button>
               {mine && (
-                <button type="button" onClick={() => { writeSettings(null); setCats(NONE); setD(null); }} className="inline-flex h-11 items-center rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-card transition hover:bg-surface-2">
+                <button type="button" onClick={() => { writeSettings(null); setCats(NONE); setD(null); }} className="inline-flex h-11 items-center rounded-full border border-line bg-white px-4 text-sm font-semibold text-ink shadow-card transition hover:bg-surface-2">
                   Turn off sync on this device
                 </button>
               )}
@@ -309,7 +309,7 @@ export default function SyncPage() {
           )}
 
           {d && (
-            <section className="mt-6 rounded-2xl border border-line bg-white p-6 shadow-card">
+            <section className="mt-6 rounded-3xl border border-line bg-white p-6 shadow-card">
               <h2 className="font-display text-lg font-bold text-ink">Review changes</h2>
               {countDiff(d) === 0 ? (
                 <p className="mt-2 text-sm text-muted">This device and your account already match for what you selected. Press Apply to turn on sync.</p>
@@ -352,7 +352,7 @@ export default function SyncPage() {
                 ))} />
               </div>
               <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-line pt-5">
-                <button type="button" onClick={apply} disabled={unresolved > 0 || phase === "applying"} className="inline-flex h-11 items-center gap-2 rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50">
+                <button type="button" onClick={apply} disabled={unresolved > 0 || phase === "applying"} className="inline-flex h-11 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50">
                   {phase === "applying" && <Loader2 size={16} className="animate-spin" aria-hidden />} Apply and turn on sync
                 </button>
                 <span className="text-sm text-muted">{phase === "applying" ? progress : unresolved > 0 ? `${unresolved} item${unresolved === 1 ? "" : "s"} still need a choice` : ""}</span>

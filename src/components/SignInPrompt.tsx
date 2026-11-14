@@ -64,7 +64,7 @@ export function SignInPrompt() {
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-labelledby="signin-prompt-title">
       <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-sm" onClick={() => setOpen(false)} />
-      <div className="sheet-in relative w-full max-w-md rounded-t-2xl border border-line bg-white p-6 shadow-pop sm:rounded-2xl sm:p-8">
+      <div className="sheet-in relative w-full max-w-md rounded-t-2xl border border-line bg-white p-6 shadow-pop sm:rounded-3xl sm:p-8">
         <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="absolute right-4 top-4 rounded-lg p-2 text-muted transition hover:bg-surface-2 hover:text-ink">
           <X size={18} strokeWidth={1.75} aria-hidden />
         </button>
@@ -76,10 +76,10 @@ export function SignInPrompt() {
           <li className="flex gap-2"><LockKeyhole size={16} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden />Private to you. You choose what to sync before anything uploads</li>
         </ul>
         <div className="mt-6 grid gap-2">
-          <Link ref={first} href="/auth/sign-in?next=/sync" onClick={() => setOpen(false)} className="inline-flex h-11 items-center justify-center rounded-xl bg-brand text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.99]">
+          <Link ref={first} href="/auth/sign-in?next=/sync" onClick={() => setOpen(false)} className="inline-flex h-11 items-center justify-center rounded-full bg-brand text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.99]">
             Sign in
           </Link>
-          <button type="button" onClick={local} className="h-11 rounded-xl border border-line bg-white text-sm font-semibold text-ink transition hover:border-slate-300 hover:bg-surface-2">
+          <button type="button" onClick={local} className="h-11 rounded-full border border-line bg-white text-sm font-semibold text-ink transition hover:border-slate-300 hover:bg-surface-2">
             Continue without account
           </button>
         </div>

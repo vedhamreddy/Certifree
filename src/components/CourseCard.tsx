@@ -17,7 +17,7 @@ export function CourseCard({ course }: { course: Course }) {
   return (
     <Link
       href={`/courses/${course.id}`}
-      className="group relative flex flex-col rounded-2xl border border-line bg-white p-5 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lift"
+      className="group relative flex flex-col rounded-3xl border border-line bg-white p-5 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lift"
     >
       <div className="mb-4 flex items-center gap-3 pr-8">
         <ProviderAvatar slug={course.provider} />

@@ -24,7 +24,7 @@ function Row({ item, onDone }: { item: LearningItem; onDone: (i: LearningItem) =
   const p = providerBySlug[c.provider];
   const overdue = item.targetDate && item.targetDate < today() && item.progress < 100;
   return (
-    <article className="flex flex-col rounded-2xl border border-line bg-white p-5 shadow-card">
+    <article className="flex flex-col rounded-3xl border border-line bg-white p-5 shadow-card">
       <div className="flex items-start gap-3">
         <ProviderAvatar slug={c.provider} />
         <div className="min-w-0 flex-1">
@@ -51,7 +51,7 @@ function Row({ item, onDone }: { item: LearningItem; onDone: (i: LearningItem) =
               type="button"
               aria-pressed={item.progress === s}
               onClick={() => update(item.courseId, { progress: s })}
-              className={`rounded-lg border px-2.5 py-1 text-xs font-semibold transition ${item.progress === s ? "border-brand bg-brand text-white" : "border-line bg-white text-muted hover:border-accent/40 hover:text-accent"}`}
+              className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition ${item.progress === s ? "border-brand bg-brand text-white" : "border-line bg-white text-muted hover:border-accent/40 hover:text-accent"}`}
             >
               {s}%
             </button>
@@ -72,10 +72,10 @@ function Row({ item, onDone }: { item: LearningItem; onDone: (i: LearningItem) =
       </label>
 
       <div className="mt-5 flex flex-wrap gap-2 border-t border-line pt-4">
-        <a href={c.url} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-line px-3 text-sm font-semibold text-ink transition hover:border-slate-300 hover:bg-surface-2">
+        <a href={c.url} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line px-3 text-sm font-semibold text-ink transition hover:border-slate-300 hover:bg-surface-2">
           Continue <ArrowUpRight size={14} strokeWidth={2} aria-hidden />
         </a>
-        <button type="button" onClick={() => onDone(item)} className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-brand px-3 text-sm font-semibold text-white transition hover:bg-brand-600">
+        <button type="button" onClick={() => onDone(item)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-brand px-3 text-sm font-semibold text-white transition hover:bg-brand-600">
           <GraduationCap size={15} strokeWidth={1.75} aria-hidden /> I completed this
         </button>
       </div>
@@ -101,11 +101,11 @@ export default function LearningPage() {
           {shown.map((i) => <Row key={i.courseId} item={i} onDone={setDone} />)}
         </div>
       ) : (
-        <div className="mt-8 rounded-2xl border border-dashed border-line bg-surface-2 px-6 py-14 text-center">
+        <div className="mt-8 rounded-3xl border border-dashed border-line bg-surface-2 px-6 py-14 text-center">
           <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-xl bg-white text-accent shadow-card ring-1 ring-inset ring-line"><BookOpen size={22} strokeWidth={1.75} aria-hidden /></span>
           <p className="font-semibold text-ink">You&apos;re not taking any courses yet.</p>
           <p className="mt-1 text-muted">Tap &quot;Start learning&quot; on a course page to track it here.</p>
-          <Link href="/courses" className="mt-6 inline-flex h-11 items-center rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600">Browse courses</Link>
+          <Link href="/courses" className="mt-6 inline-flex h-11 items-center rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600">Browse courses</Link>
         </div>
       )}
       <CertificateForm

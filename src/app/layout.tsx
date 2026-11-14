@@ -28,17 +28,19 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${manrope.variable}`}>
-      <body className="font-sans text-ink antialiased">
+      <body className="bg-white font-sans text-ink antialiased lg:bg-bg">
         <Nav />
-        <div className="min-h-dvh lg:pl-64">
+        <div className="min-h-dvh lg:py-3 lg:pl-64 lg:pr-3">
+          <div className="min-h-dvh bg-white lg:min-h-[calc(100dvh-1.5rem)] lg:rounded-[28px] lg:shadow-card">
           <TopBar />
           <SyncWatcher />
           <main className="pb-24 lg:pb-0">{children}</main>
-          <footer className="mx-auto max-w-7xl px-4 pb-28 pt-12 sm:px-6 lg:px-8 lg:pb-12">
+          <footer className="mx-auto max-w-7xl px-4 pb-28 pt-12 sm:px-6 lg:px-8 lg:pb-10">
             <div className="border-t border-line pt-6 text-sm leading-relaxed text-muted">
               CertiFree is an independent directory. Course names belong to their providers, and every link goes to the provider&apos;s own site. Free offers change, so confirm the details there before you enrol.
             </div>
           </footer>
+          </div>
         </div>
         <SignInPrompt />
         <InstallBanner />

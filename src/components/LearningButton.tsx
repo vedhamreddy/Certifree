@@ -16,7 +16,7 @@ export function LearningButton({ courseId }: { courseId: string }) {
     );
   }
   return (
-    <button type="button" onClick={() => withSignInNudge(() => start(courseId))} className="inline-flex h-11 items-center gap-2 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink transition hover:border-accent/30 hover:bg-accent/[0.04] hover:text-brand active:scale-[0.98]">
+    <button type="button" onClick={() => withSignInNudge(() => start(courseId))} className="inline-flex h-11 items-center gap-2 rounded-full border border-line bg-white px-4 text-sm font-semibold text-ink transition hover:border-accent/30 hover:bg-accent/[0.04] hover:text-brand active:scale-[0.98]">
       <PlayCircle size={16} strokeWidth={1.75} aria-hidden /> Start learning
     </button>
   );

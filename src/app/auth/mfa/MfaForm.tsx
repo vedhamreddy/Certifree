@@ -18,7 +18,7 @@ export function MfaForm({ next }: { next: string }) {
         className="w-full rounded-xl border border-line px-3 py-3 text-center font-mono text-2xl tracking-[0.4em] text-ink outline-none focus:border-accent focus:ring-4 focus:ring-accent/10"
       />
       {state.status === "error" && <p role="alert" className="text-sm text-danger">{state.message}</p>}
-      <button disabled={pending} className="h-11 w-full rounded-xl bg-brand text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 disabled:opacity-60">
+      <button disabled={pending} className="h-11 w-full rounded-full bg-brand text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 disabled:opacity-60">
         {pending ? "Checking..." : "Verify"}
       </button>
     </form>

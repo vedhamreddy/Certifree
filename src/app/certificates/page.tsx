@@ -39,7 +39,7 @@ export default function CertificatesPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="hero-bg flex flex-col gap-6 rounded-2xl border border-line p-6 shadow-card sm:flex-row sm:items-center sm:justify-between sm:p-10">
+      <div className="hero-bg flex flex-col gap-6 rounded-3xl border border-line p-6 shadow-card sm:flex-row sm:items-center sm:justify-between sm:p-10">
         <div>
           <span className="mb-3 grid h-11 w-11 place-items-center rounded-xl bg-brand text-white shadow-card"><GraduationCap size={22} strokeWidth={1.75} aria-hidden /></span>
           <h1 className="font-display text-3xl font-bold text-ink sm:text-4xl">My Certificates</h1>
@@ -53,19 +53,19 @@ export default function CertificatesPage() {
           )}
         </div>
         <div className="flex flex-wrap gap-2">
-          {list.length > 0 && <button type="button" onClick={download} className="inline-flex h-11 items-center gap-2 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-card transition hover:border-slate-300 hover:bg-surface-2 active:scale-[0.98]"><Download size={16} strokeWidth={1.75} aria-hidden /> Download list</button>}
-          <button type="button" onClick={() => setEditing({})} className="inline-flex h-11 items-center gap-2 rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98]"><Plus size={16} strokeWidth={2} aria-hidden /> Add certificate</button>
+          {list.length > 0 && <button type="button" onClick={download} className="inline-flex h-11 items-center gap-2 rounded-full border border-line bg-white px-4 text-sm font-semibold text-ink shadow-card transition hover:border-slate-300 hover:bg-surface-2 active:scale-[0.98]"><Download size={16} strokeWidth={1.75} aria-hidden /> Download list</button>}
+          <button type="button" onClick={() => setEditing({})} className="inline-flex h-11 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98]"><Plus size={16} strokeWidth={2} aria-hidden /> Add certificate</button>
         </div>
       </div>
 
       {list.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-dashed border-line bg-surface-2 px-6 py-16 text-center">
+        <div className="mt-8 rounded-3xl border border-dashed border-line bg-surface-2 px-6 py-16 text-center">
           <span className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-white text-accent shadow-card ring-1 ring-inset ring-line"><Trophy size={26} strokeWidth={1.75} aria-hidden /></span>
           <p className="text-lg font-semibold text-ink">No certificates yet</p>
           <p className="mx-auto mt-1 max-w-md text-muted">Finish a course, then tap &quot;I completed this&quot; on its page to add your certificate. You can also add certificates from anywhere else.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Link href="/courses?cost=free-cert" className="inline-flex h-11 items-center rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98]">Find a free certificate</Link>
-            <button type="button" onClick={() => setEditing({})} className="inline-flex h-11 items-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink shadow-card transition hover:border-slate-300 hover:bg-surface-2 active:scale-[0.98]">Add one now</button>
+            <Link href="/courses?cost=free-cert" className="inline-flex h-11 items-center rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98]">Find a free certificate</Link>
+            <button type="button" onClick={() => setEditing({})} className="inline-flex h-11 items-center rounded-full border border-line bg-white px-5 text-sm font-semibold text-ink shadow-card transition hover:border-slate-300 hover:bg-surface-2 active:scale-[0.98]">Add one now</button>
           </div>
         </div>
       ) : (

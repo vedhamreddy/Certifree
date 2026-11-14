@@ -88,7 +88,7 @@ export function CertificateForm({ open, onClose, initial, onSaved }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-labelledby="cert-form-title">
       <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-sm" onClick={onClose} />
-      <form onSubmit={submit} className="sheet-in relative max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-line bg-white p-6 shadow-pop sm:rounded-2xl sm:p-8">
+      <form onSubmit={submit} className="sheet-in relative max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-line bg-white p-6 shadow-pop sm:rounded-3xl sm:p-8">
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
             <h2 id="cert-form-title" className="font-display text-xl font-bold text-ink">{initial?.id ? "Edit certificate" : "Add your certificate"}</h2>
@@ -152,8 +152,8 @@ export function CertificateForm({ open, onClose, initial, onSaved }: Props) {
         {error && <p role="alert" className="mt-4 flex items-start gap-2 rounded-xl border border-red-600/15 bg-red-50 px-3 py-2.5 text-sm text-[#B91C1C]"><AlertCircle size={16} strokeWidth={2} className="mt-0.5 shrink-0" aria-hidden />{error}</p>}
 
         <div className="mt-8 flex gap-3">
-          <button type="button" onClick={onClose} className="h-11 flex-1 rounded-xl border border-line bg-white text-sm font-semibold text-ink transition hover:border-slate-300 hover:bg-surface-2 active:scale-[0.98]">Cancel</button>
-          <button disabled={busy} className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100">
+          <button type="button" onClick={onClose} className="h-11 flex-1 rounded-full border border-line bg-white text-sm font-semibold text-ink transition hover:border-slate-300 hover:bg-surface-2 active:scale-[0.98]">Cancel</button>
+          <button disabled={busy} className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-brand text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100">
             {busy && <Loader2 size={16} strokeWidth={2} className="animate-spin" aria-hidden />}
             {busy ? "Saving..." : "Save certificate"}
           </button>

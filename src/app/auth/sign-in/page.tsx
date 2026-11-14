@@ -21,7 +21,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
   if (!reauth && (await getAuthed())) redirect(next);
   return (
     <div className="mx-auto max-w-md px-4 py-12 sm:py-20">
-      <div className="rounded-2xl border border-line bg-white p-6 shadow-card sm:p-8">
+      <div className="rounded-3xl border border-line bg-white p-6 shadow-card sm:p-8">
         <h1 className="font-display text-2xl font-bold text-ink">{reauth ? "Confirm it's you" : "Sign in to sync"}</h1>
         <p className="mt-2 text-sm leading-relaxed text-muted">
           {reauth

@@ -15,7 +15,7 @@ export default async function MfaPage({ searchParams }: { searchParams: Promise<
   if (!(await needsMfa(supabase))) redirect(next);
   return (
     <div className="mx-auto max-w-md px-4 py-12 sm:py-20">
-      <div className="rounded-2xl border border-line bg-white p-6 shadow-card sm:p-8">
+      <div className="rounded-3xl border border-line bg-white p-6 shadow-card sm:p-8">
         <h1 className="font-display text-2xl font-bold text-ink">Enter your code</h1>
         <p className="mt-2 text-sm text-muted">Open your authenticator app and enter the 6-digit code for CertiFree.</p>
         <MfaForm next={next} />

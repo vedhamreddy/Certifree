@@ -14,7 +14,7 @@ function Grid({ list }: { list: Provider[] }) {
         const mine = courses.filter((x) => x.provider === c.slug);
         const free = mine.filter((x) => x.cost === "free-cert").length;
         return (
-          <Link key={c.slug} href={`/providers/${c.slug}`} className="group flex flex-col rounded-2xl border border-line bg-white p-6 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lift">
+          <Link key={c.slug} href={`/providers/${c.slug}`} className="group flex flex-col rounded-3xl border border-line bg-white p-6 shadow-card transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lift">
             <div className="flex items-center gap-3">
               <ProviderAvatar slug={c.slug} size="lg" />
               <div className="min-w-0">
@@ -23,9 +23,9 @@ function Grid({ list }: { list: Provider[] }) {
               </div>
             </div>
             <p className="mb-5 mt-4 line-clamp-2 text-sm leading-relaxed text-muted">{c.blurb}</p>
-            <div className="mt-auto flex gap-4 border-t border-line pt-4 text-sm">
-              <span className="inline-flex items-center gap-1.5 text-muted"><BookOpen size={15} strokeWidth={1.75} aria-hidden /><b className="font-semibold text-ink">{mine.length}</b> courses</span>
-              {free > 0 && <span className="inline-flex items-center gap-1.5 text-free"><BadgeCheck size={15} strokeWidth={1.75} aria-hidden /><b className="font-semibold">{free}</b> free certificates</span>}
+            <div className="mt-auto flex flex-wrap gap-x-4 gap-y-1 border-t border-line pt-4 text-sm">
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-muted"><BookOpen size={15} strokeWidth={1.75} aria-hidden /><b className="font-semibold text-ink">{mine.length}</b> courses</span>
+              {free > 0 && <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-ink"><BadgeCheck size={15} strokeWidth={1.75} aria-hidden /><b className="font-semibold">{free}</b> free certificates</span>}
             </div>
           </Link>
         );

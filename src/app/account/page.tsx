@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 function Card({ icon: Icon, title, children }: { icon: typeof Mail; title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-2xl border border-line bg-white p-6 shadow-card">
+    <section className="rounded-3xl border border-line bg-white p-6 shadow-card">
       <h2 className="flex items-center gap-2 font-display text-lg font-bold text-ink">
         <Icon size={18} strokeWidth={1.75} className="text-accent" aria-hidden /> {title}
       </h2>
@@ -86,7 +86,7 @@ export default async function AccountPage() {
           <p className="mt-3 text-xs text-muted">Signing out keeps your data on this device. It stops syncing until you sign in again.</p>
         </Card>
 
-        <section className="rounded-2xl border border-red-600/20 bg-white p-6 shadow-card">
+        <section className="rounded-3xl border border-red-600/20 bg-white p-6 shadow-card">
           <h2 className="font-display text-lg font-bold text-ink">Delete account</h2>
           <p className="mt-2 text-sm text-muted">Permanently deletes your account, synced saved courses, My Courses, certificate details and uploaded files. This can&apos;t be undone.</p>
           <div className="mt-4">{recent ? <DeleteAccountForm /> : reauth}</div>

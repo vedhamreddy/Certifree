@@ -11,8 +11,8 @@ export default function Offline() {
       <h1 className="font-display text-2xl font-bold text-ink">You&apos;re offline</h1>
       <p className="mt-2 text-muted">This page hasn&apos;t been saved for offline use yet. Pages you&apos;ve opened before, your saved courses, My Courses and certificates still work.</p>
       <div className="mt-6 flex flex-wrap justify-center gap-2">
-        <a href="/saved" className="inline-flex h-11 items-center rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600">Saved courses</a>
-        <a href="/certificates" className="inline-flex h-11 items-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink shadow-card transition hover:bg-surface-2">My Certificates</a>
+        <a href="/saved" className="inline-flex h-11 items-center rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600">Saved courses</a>
+        <a href="/certificates" className="inline-flex h-11 items-center rounded-full border border-line bg-white px-5 text-sm font-semibold text-ink shadow-card transition hover:bg-surface-2">My Certificates</a>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ export function SearchBar({ defaultValue = "", big = false }: { defaultValue?: s
     <form
       action="/courses"
       role="search"
-      className={`flex w-full items-center rounded-2xl border border-line bg-white shadow-lift transition-colors focus-within:border-accent/60 ${big ? "p-2 pl-5" : "p-1.5 pl-4"}`}
+      className={`flex w-full items-center rounded-full border border-line bg-white shadow-card transition-colors focus-within:border-accent/60 ${big ? "p-2 pl-5" : "p-1.5 pl-4"}`}
     >
       <Search size={20} strokeWidth={1.75} className="shrink-0 text-muted" aria-hidden />
       <input

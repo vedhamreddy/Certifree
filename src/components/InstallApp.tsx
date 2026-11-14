@@ -49,12 +49,14 @@ export function InstallSidebarItem() {
         type="button"
         onClick={() => (mode === "prompt" ? install() : setHelp((v) => !v))}
         aria-expanded={mode === "prompt" ? undefined : help}
-        className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[15px] font-medium text-muted transition-colors duration-150 hover:bg-surface-2 hover:text-ink"
+        className="group flex w-full items-center gap-3 rounded-full p-1.5 pr-4 text-left text-[15px] font-medium text-muted transition-colors duration-150 hover:bg-white hover:text-ink"
       >
-        <Download size={18} strokeWidth={1.75} className="text-muted transition-colors group-hover:text-ink" aria-hidden />
+        <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink ring-1 ring-inset ring-line group-hover:bg-surface-2">
+          <Download size={17} strokeWidth={1.75} aria-hidden />
+        </span>
         Install app
       </button>
-      {help && mode !== "prompt" && <div className="mx-3 mb-2 rounded-xl border border-line bg-surface-2 p-3"><Steps mode={mode} /></div>}
+      {help && mode !== "prompt" && <div className="mx-1 mb-2 mt-1 rounded-2xl bg-white p-3 ring-1 ring-inset ring-line"><Steps mode={mode} /></div>}
     </div>
   );
 }
@@ -79,14 +81,14 @@ export function InstallBanner() {
   };
   return (
     <div className="fixed inset-x-3 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-30 mx-auto max-w-md lg:hidden">
-      <div className="sheet-in flex items-start gap-3 rounded-2xl border border-line bg-white p-4 shadow-pop">
+      <div className="sheet-in flex items-start gap-3 rounded-3xl border border-line bg-white p-4 shadow-pop">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icon-192.png" alt="" width={40} height={40} className="h-10 w-10 shrink-0 rounded-xl" />
         <div className="min-w-0 flex-1">
           <p className="font-semibold text-ink">Install CertiFree</p>
           {mode === "prompt" ? <p className="mt-0.5 text-sm text-muted">Open it from your home screen, full screen, even offline.</p> : <Steps mode={mode} />}
           {mode === "prompt" && (
-            <button type="button" onClick={async () => { if (await install()) dismiss(); }} className="mt-3 inline-flex h-9 items-center gap-1.5 rounded-lg bg-brand px-3 text-sm font-semibold text-white transition hover:bg-brand-600">
+            <button type="button" onClick={async () => { if (await install()) dismiss(); }} className="mt-3 inline-flex h-9 items-center gap-1.5 rounded-full bg-brand px-3 text-sm font-semibold text-white transition hover:bg-brand-600">
               <Download size={15} strokeWidth={1.75} aria-hidden /> Install
             </button>
           )}

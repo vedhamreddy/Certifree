@@ -17,11 +17,11 @@ export default function SavedPage() {
           {list.map((c) => <CourseCard key={c.id} course={c} />)}
         </div>
       ) : (
-        <div className="mt-8 rounded-2xl border border-dashed border-line bg-surface-2 px-6 py-14 text-center">
+        <div className="mt-8 rounded-3xl border border-dashed border-line bg-surface-2 px-6 py-14 text-center">
           <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-xl bg-white text-accent shadow-card ring-1 ring-inset ring-line"><Heart size={22} strokeWidth={1.75} aria-hidden /></span>
           <p className="font-semibold text-ink">Nothing saved yet.</p>
           <p className="mt-1 text-muted">Tap the heart on any course to keep it here.</p>
-          <Link href="/courses" className="mt-6 inline-flex h-11 items-center rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98]">Browse courses</Link>
+          <Link href="/courses" className="mt-6 inline-flex h-11 items-center rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98]">Browse courses</Link>
         </div>
       )}
     </div>

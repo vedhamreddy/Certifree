@@ -34,7 +34,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
       <Link href="/courses" className="group inline-flex items-center gap-1 text-sm font-semibold text-muted transition-colors hover:text-ink"><ArrowLeft size={16} strokeWidth={1.75} className="transition-transform group-hover:-translate-x-0.5" aria-hidden /> All courses</Link>
-      <div className="mt-5 rounded-2xl border border-line bg-white p-6 shadow-card sm:p-10">
+      <div className="mt-5 rounded-3xl border border-line bg-white p-6 shadow-card sm:p-10">
         <Link href={`/providers/${company.slug}`} className="group inline-flex items-center gap-3">
           <ProviderAvatar slug={company.slug} size="lg" />
           <span>
@@ -56,15 +56,15 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
             </div>
           ))}
         </dl>
-        <div className="mt-4 flex gap-3 rounded-xl border border-emerald-600/15 bg-emerald-50/60 p-4">
-          <Gift size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-free" aria-hidden />
+        <div className="mt-4 flex gap-3 rounded-2xl bg-surface-2 p-4">
+          <Gift size={20} strokeWidth={1.75} className="mt-0.5 shrink-0 text-ink" aria-hidden />
           <div>
             <div className="font-semibold text-ink">What you get for free</div>
             <p className="mt-0.5 text-sm text-muted">{costExplain[course.cost]}</p>
           </div>
         </div>
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          <a href={course.url} target="_blank" rel="noopener noreferrer" className="group inline-flex h-11 items-center gap-1.5 rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98]">
+          <a href={course.url} target="_blank" rel="noopener noreferrer" className="group inline-flex h-11 items-center gap-1.5 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98]">
             Go to course on {company.name} <ArrowUpRight size={16} strokeWidth={2} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
           </a>
           <LearningButton courseId={course.id} />

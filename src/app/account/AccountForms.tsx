@@ -111,14 +111,14 @@ export function DeleteAccountForm() {
   return (
     <form action={act} className="space-y-3">
       <label className="flex items-start gap-2 text-sm text-ink">
-        <input type="checkbox" checked={wipeLocal} onChange={(e) => setWipeLocal(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[#172554]" />
+        <input type="checkbox" checked={wipeLocal} onChange={(e) => setWipeLocal(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[#0a0a0a]" />
         Also remove saved courses, My Courses and certificates from this browser
       </label>
       <label className="block">
         <span className="mb-1.5 block text-sm font-medium text-ink">Type DELETE to confirm</span>
         <div className="flex gap-2">
           <input name="confirm" autoComplete="off" className={field} />
-          <button disabled={pending} className="inline-flex h-11 shrink-0 items-center gap-2 rounded-xl bg-danger px-4 text-sm font-semibold text-white shadow-card transition hover:bg-red-700 disabled:opacity-60">
+          <button disabled={pending} className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-danger px-4 text-sm font-semibold text-white shadow-card transition hover:bg-red-700 disabled:opacity-60">
             {pending && <Loader2 size={16} className="animate-spin" aria-hidden />} Delete account
           </button>
         </div>

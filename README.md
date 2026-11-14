@@ -12,6 +12,7 @@
 - **My Courses:** tap "Start learning" on a course to track it, set progress and a target date, then add the certificate when you finish and it moves to My Certificates
 - **Optional accounts and private sync** (Supabase): Google or email magic link. Nothing is uploaded until you choose what to sync and review every change. See [docs/accounts-setup.md](docs/accounts-setup.md)
 - **My Certificates:** tap "I completed this" on any course (or "Add certificate" for courses from anywhere else) to save the certificate with its completion date, credential ID, verification link and an image or PDF of the certificate. All certificates show on one page, filterable by domain and issuer, and the list can be downloaded as a CSV for a resume or LinkedIn
+- **Learner dashboard:** quick stats, learning activity chart, upcoming deadlines and a My Courses table with CSV export
 - **Mobile first:** sidebar on desktop, bottom navigation on phones, bottom-sheet filters, installable as an app (PWA)
 - SEO ready: every course and provider page is pre-rendered, with a sitemap and robots.txt
 
