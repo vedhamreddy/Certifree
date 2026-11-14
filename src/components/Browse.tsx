@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { companies } from "@/data/companies";
+import { companies, platforms } from "@/data/providers";
 import { costLabels, domainLabels, levelLabels } from "@/data/courses";
 import { filterCourses, Filters } from "@/lib/filter";
 import { CourseCard } from "./CourseCard";
@@ -9,7 +9,8 @@ import { CourseCard } from "./CourseCard";
 const groups = [
   { key: "cost", title: "What's free", options: Object.entries(costLabels) },
   { key: "domain", title: "Domain", options: Object.entries(domainLabels) },
-  { key: "company", title: "Company", options: companies.map((c) => [c.slug, c.name] as [string, string]) },
+  { key: "provider", title: "Companies", options: companies.map((c) => [c.slug, c.name] as [string, string]) },
+  { key: "provider", title: "Platforms", options: platforms.map((c) => [c.slug, c.name] as [string, string]) },
   { key: "level", title: "Level", options: Object.entries(levelLabels) },
 ] as const;
 
@@ -27,12 +28,12 @@ export function Browse() {
     q,
     cost: params.getAll("cost"),
     domain: params.getAll("domain"),
-    company: params.getAll("company"),
+    provider: params.getAll("provider"),
     level: params.getAll("level"),
     sort: (params.get("sort") as Filters["sort"]) ?? "relevance",
   };
   const results = useMemo(() => filterCourses(filters), [q, params]); // eslint-disable-line react-hooks/exhaustive-deps
-  const activeCount = groups.reduce((n, g) => n + params.getAll(g.key).length, 0);
+  const activeCount = ["cost", "domain", "provider", "level"].reduce((n, k) => n + params.getAll(k).length, 0);
 
   function update(mut: (p: URLSearchParams) => void) {
     const p = new URLSearchParams(params.toString());
@@ -54,7 +55,7 @@ export function Browse() {
   const panel = (
     <div className="space-y-6">
       {groups.map((g) => (
-        <fieldset key={g.key}>
+        <fieldset key={g.title}>
           <legend className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted">{g.title}</legend>
           <div className="flex flex-wrap gap-2">
             {g.options.map(([value, label]) => {
@@ -85,14 +86,15 @@ export function Browse() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <h1 className="font-display text-3xl font-bold">Browse free courses</h1>
+      <p className="mt-1 text-muted">Filter by what<h1 className="font-display text-3xl font-bold">Browse free courses</h1>apos;s free, domain, company or platform. Every course links straight to the provider.</p>
       <div className="sticky top-16 z-20 -mx-4 mt-4 bg-bg/90 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
         <div className="flex gap-2">
-          <label className="flex flex-1 items-center gap-2 rounded-2xl border border-line bg-surface px-4 shadow-sm focus-within:border-brand">
+          <label className="flex min-w-0 flex-1 items-center gap-2 rounded-2xl border border-line bg-surface px-4 shadow-sm focus-within:border-brand">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted" aria-hidden><circle cx="11" cy="11" r="7" /><path d="M21 21l-5-5" /></svg>
-            <input value={q} onChange={(e) => onSearch(e.target.value)} placeholder="Search by course, company or skill" aria-label="Search courses" className="min-w-0 flex-1 bg-transparent py-3 outline-none placeholder:text-muted" />
+            <input value={q} onChange={(e) => onSearch(e.target.value)} placeholder="Search by course, company, platform or skill" aria-label="Search courses" className="min-w-0 flex-1 bg-transparent py-3 outline-none placeholder:text-muted" />
             {q && <button type="button" onClick={() => onSearch("")} aria-label="Clear search" className="text-muted">✕</button>}
           </label>
-          <button type="button" onClick={() => setOpen(true)} className="rounded-2xl border border-line bg-surface px-4 font-semibold lg:hidden">
+          <button type="button" onClick={() => setOpen(true)} className="shrink-0 rounded-2xl border border-line bg-surface px-4 font-semibold lg:hidden">
             Filters{activeCount ? ` (${activeCount})` : ""}
           </button>
         </div>

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { companyBySlug } from "@/data/companies";
+import { providerBySlug } from "@/data/providers";
 import { courseById, courses, costExplain, credentialLabels, domainLabels, levelLabels } from "@/data/courses";
-import { CompanyAvatar } from "@/components/CompanyAvatar";
+import { ProviderAvatar } from "@/components/ProviderAvatar";
 import { CostTag, CredentialTag } from "@/components/Tags";
 import { BookmarkButton } from "@/components/BookmarkButton";
 import { CourseCard, formatHours } from "@/components/CourseCard";
@@ -20,11 +20,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function CoursePage({ params }: { params: Promise<{ id: string }> }) {
   const course = courseById[(await params).id];
   if (!course) notFound();
-  const company = companyBySlug[course.company];
-  const related = courses.filter((c) => c.id !== course.id && (c.domain === course.domain || c.company === course.company)).slice(0, 3);
+  const company = providerBySlug[course.provider];
+  const related = courses.filter((c) => c.id !== course.id && (c.domain === course.domain || c.provider === course.provider)).slice(0, 3);
   const facts = [
     ["Level", levelLabels[course.level]],
-    ["Time", formatHours(course.hours)],
+    ["Time", formatHours(course.hours) ?? "Self-paced"],
     ["Domain", domainLabels[course.domain]],
     ["Credential", credentialLabels[course.credential]],
   ];
@@ -32,11 +32,11 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
       <Link href="/courses" className="text-sm font-semibold text-brand">← All courses</Link>
       <div className="mt-4 rounded-3xl border border-line bg-surface p-6 sm:p-8">
-        <Link href={`/companies/${company.slug}`} className="inline-flex items-center gap-3">
-          <CompanyAvatar slug={company.slug} size="lg" />
+        <Link href={`/providers/${company.slug}`} className="inline-flex items-center gap-3">
+          <ProviderAvatar slug={company.slug} size="lg" />
           <span>
             <span className="block font-semibold">{company.name}</span>
-            <span className="text-sm text-muted">{company.portal}</span>
+            {company.portal !== company.name && <span className="text-sm text-muted">{company.portal}</span>}
           </span>
         </Link>
         <h1 className="mt-5 font-display text-3xl font-bold leading-tight sm:text-4xl">{course.title}</h1>
@@ -59,12 +59,12 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         </div>
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <a href={course.url} target="_blank" rel="noopener noreferrer" className="rounded-2xl bg-brand px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-brand-600">
-            Start on {company.portal.split(",")[0]} ↗
+            Go to course on {company.name} ↗
           </a>
           <BookmarkButton id={course.id} withLabel />
         </div>
         <p className="mt-4 text-xs text-muted">
-          {course.lastVerified ? `Last verified ${course.lastVerified}.` : "Not verified yet."} Free status can change; confirm on the provider&apos;s site.
+          {course.verified ? `Cost and credential checked on the provider's page on ${course.verified}.` : "Link checked; free status taken from the provider's catalog."} Offers change, so confirm on the provider&apos;s site before you enrol.
         </p>
       </div>
       {related.length > 0 && (

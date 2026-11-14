@@ -7,7 +7,7 @@ import { useBookmarks } from "@/lib/bookmarks";
 const links = [
   { href: "/", label: "Home", icon: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
   { href: "/courses", label: "Browse", icon: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm10 17l-5-5" },
-  { href: "/companies", label: "Companies", icon: "M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M14 9h5a1 1 0 0 1 1 1v11M8 8h2M8 12h2M8 16h2M3 21h18" },
+  { href: "/providers", label: "Providers", icon: "M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M14 9h5a1 1 0 0 1 1 1v11M8 8h2M8 12h2M8 16h2M3 21h18" },
   { href: "/saved", label: "Saved", icon: "M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.1 0 3.6 1.1 5.2 3 1.6-1.9 3.1-3 5.2-3 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z" },
 ];
 
