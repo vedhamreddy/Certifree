@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Award, BadgeCheck, Building2, Compass, Heart, House, Search, type LucideIcon } from "lucide-react";
+import { Award, BadgeCheck, BookOpen, Building2, CircleUserRound, Compass, Heart, House, RefreshCw, Search, type LucideIcon } from "lucide-react";
+import { useMe } from "@/lib/sync";
 import { Logo } from "./Logo";
 import { useBookmarks } from "@/lib/bookmarks";
 
@@ -9,6 +10,7 @@ const links: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/", label: "Home", icon: House },
   { href: "/courses", label: "Browse", icon: Compass },
   { href: "/providers", label: "Providers", icon: Building2 },
+  { href: "/learning", label: "My Courses", icon: BookOpen },
   { href: "/certificates", label: "Certificates", icon: Award },
   { href: "/saved", label: "Saved", icon: Heart },
 ];
@@ -59,6 +61,24 @@ export function Sidebar() {
   );
 }
 
+/** Account entry: hidden when accounts aren't configured, so local-only use looks exactly as before. */
+function AccountLink() {
+  const me = useMe();
+  if (!me?.enabled) return null;
+  if (!me.signedIn) {
+    return (
+      <Link href="/sync" className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-line bg-white px-3 text-sm font-semibold text-ink shadow-card transition hover:border-slate-300 hover:bg-surface-2">
+        <RefreshCw size={15} strokeWidth={1.75} aria-hidden /> <span className="hidden sm:inline">Sync</span><span className="sm:hidden">Sign in</span>
+      </Link>
+    );
+  }
+  return (
+    <Link href="/account" aria-label="Account" className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-line bg-white text-brand shadow-card transition hover:border-slate-300 hover:bg-surface-2">
+      <CircleUserRound size={18} strokeWidth={1.75} aria-hidden />
+    </Link>
+  );
+}
+
 /** Sticky top bar on every screen size. */
 export function TopBar() {
   const path = usePathname();
@@ -79,6 +99,7 @@ export function TopBar() {
           <Link href="/courses?cost=free-cert" className="hidden h-9 shrink-0 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98] sm:inline-flex">
             <BadgeCheck size={16} strokeWidth={1.75} aria-hidden /> Free certificates
           </Link>
+          <AccountLink />
         </div>
       </div>
     </header>
@@ -90,15 +111,15 @@ export function BottomNav() {
   const path = usePathname();
   const { ids } = useBookmarks();
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-line bg-white/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden" aria-label="Main">
+    <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-6 border-t border-line bg-white/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden" aria-label="Main">
       {links.map(({ href, label, icon: Icon }) => {
         const on = active(path, href);
         return (
-          <Link key={href} href={href} aria-current={on ? "page" : undefined} className={`relative flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors ${on ? "text-accent" : "text-muted"}`}>
-            <span className={`grid h-7 w-12 place-items-center rounded-full transition-colors ${on ? "bg-accent/[0.08]" : ""}`}>
+          <Link key={href} href={href} aria-current={on ? "page" : undefined} className={`relative flex min-w-0 flex-col items-center gap-1 px-0.5 py-2.5 text-[10.5px] font-medium transition-colors ${on ? "text-accent" : "text-muted"}`}>
+            <span className={`grid h-7 w-11 place-items-center rounded-full transition-colors ${on ? "bg-accent/[0.08]" : ""}`}>
               <Icon size={20} strokeWidth={on ? 2 : 1.75} aria-hidden />
             </span>
-            {label}
+            <span className="max-w-full truncate">{label}</span>
             {href === "/saved" && ids.length > 0 && (
               <span className="absolute right-[calc(50%-22px)] top-1.5 h-2 w-2 rounded-full bg-accent ring-2 ring-white" aria-label={`${ids.length} saved`} />
             )}

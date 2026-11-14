@@ -84,7 +84,7 @@ export default function CertificatesPage() {
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {shown.map((c) => <CertificateCard key={c.id} cert={c} onEdit={setEditing} />)}
           </div>
-          <p className="mt-8 text-sm text-muted">Tip: certificates are stored in this browser. Use &quot;Download list&quot; to keep a copy for your resume or LinkedIn.</p>
+          <p className="mt-8 text-sm text-muted">Tip: certificates are stored in this browser. Use &quot;Download list&quot; to keep a copy for your resume or LinkedIn, or <Link href="/sync" className="font-semibold text-accent hover:text-brand">sync them privately</Link> to your other devices.</p>
         </>
       )}
 

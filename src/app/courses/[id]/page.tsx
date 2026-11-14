@@ -7,6 +7,7 @@ import { ProviderAvatar } from "@/components/ProviderAvatar";
 import { CostTag, CredentialTag } from "@/components/Tags";
 import { BookmarkButton } from "@/components/BookmarkButton";
 import { CompleteCourse } from "@/components/CompleteCourse";
+import { LearningButton } from "@/components/LearningButton";
 import { CourseCard, formatHours } from "@/components/CourseCard";
 import { ArrowLeft, ArrowUpRight, Gift } from "lucide-react";
 
@@ -66,6 +67,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
           <a href={course.url} target="_blank" rel="noopener noreferrer" className="group inline-flex h-11 items-center gap-1.5 rounded-xl bg-brand px-5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98]">
             Go to course on {company.name} <ArrowUpRight size={16} strokeWidth={2} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
           </a>
+          <LearningButton courseId={course.id} />
           <BookmarkButton id={course.id} withLabel />
           <CompleteCourse course={course} />
         </div>

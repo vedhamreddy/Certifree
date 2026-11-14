@@ -9,13 +9,15 @@
 - **Filters** for what's free, domain (AI & ML, Cloud, Cybersecurity, Data, Web dev, DevOps, Programming, CS fundamentals, Networking, Marketing, Career skills), company, platform and level. Filters live in the URL, so a search can be shared as a link
 - **Provider pages** ("Free AWS courses") and **course pages** with a direct link to the course on the provider's site
 - **Saved courses** (bookmarks) stored on the device
+- **My Courses:** tap "Start learning" on a course to track it, set progress and a target date, then add the certificate when you finish and it moves to My Certificates
+- **Optional accounts and private sync** (Supabase): Google or email magic link. Nothing is uploaded until you choose what to sync and review every change. See [docs/accounts-setup.md](docs/accounts-setup.md)
 - **My Certificates:** tap "I completed this" on any course (or "Add certificate" for courses from anywhere else) to save the certificate with its completion date, credential ID, verification link and an image or PDF of the certificate. All certificates show on one page, filterable by domain and issuer, and the list can be downloaded as a CSV for a resume or LinkedIn
-- **Mobile first:** bottom navigation, bottom-sheet filters, light and dark mode, installable as an app (PWA)
+- **Mobile first:** sidebar on desktop, bottom navigation on phones, bottom-sheet filters, installable as an app (PWA)
 - SEO ready: every course and provider page is pre-rendered, with a sitemap and robots.txt
 
 ## Tech stack
 
-Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Google Fonts (Poppins, Inter) via `next/font`. No database or API keys are needed: the catalog is a typed data file, and every page is generated at build time.
+Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Lucide icons · Google Fonts (Inter, Manrope) via `next/font` · Supabase (optional, for accounts). The catalog is a typed data file and every public page is generated at build time. No keys are needed to run it; accounts switch on only when the Supabase variables in `.env.example` are set.
 
 ## Run it locally
 
@@ -104,13 +106,16 @@ src/
   components/          Nav, CourseCard, Browse (search + filters), Tags, Logo, ...
   data/                providers.ts, courses.ts
   lib/                 filter.ts (search + filters), bookmarks.ts (saved courses),
-                       certificates.ts (My Certificates: details in localStorage, files in IndexedDB)
+                       certificates.ts (My Certificates: details in localStorage, files in IndexedDB),
+                       learning.ts (My Courses), sync.ts + sync-diff.ts (opt-in sync), supabase/ (server-only clients)
+  app/api/             server-checked routes for synced data
+supabase/migrations/   database tables, row-level security and private storage
 public/                icons, logo, service worker
 ```
 
 ## Roadmap
 
-1. Accounts with Google sign-in (Supabase) so saved courses and certificates sync across devices. Until then, they are stored only in the browser where they were added, so clearing browser data removes them
+1. ~~Accounts with Google sign-in and sync~~ (done; see docs/accounts-setup.md)
 2. Automatic catalog updates (for example the Microsoft Learn Catalog API) on a GitHub Actions schedule
 3. Deadlines and email reminders for free exam campaigns and NPTEL enrolment
 4. "Report wrong info" button and an admin page for corrections

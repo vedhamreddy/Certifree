@@ -11,7 +11,7 @@ export default function SavedPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <h1 className="font-display text-3xl font-bold text-ink sm:text-4xl">Saved courses</h1>
-      <p className="mt-2 text-muted">Saved on this device. Sign-in to sync across devices comes next.</p>
+      <p className="mt-2 text-muted">Saved on this device. Want them on your other devices too? <Link href="/sync" className="font-semibold text-accent hover:text-brand">Set up sync</Link>.</p>
       {list.length ? (
         <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {list.map((c) => <CourseCard key={c.id} course={c} />)}

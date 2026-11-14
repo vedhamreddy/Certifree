@@ -3,11 +3,13 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Course } from "@/data/courses";
 import { useCertificates } from "@/lib/certificates";
+import { useLearning } from "@/lib/learning";
 import { CertificateForm } from "./CertificateForm";
 import { CircleCheck, GraduationCap } from "lucide-react";
 
 export function CompleteCourse({ course }: { course: Course }) {
   const { forCourse } = useCertificates();
+  const { stop } = useLearning();
   const [open, setOpen] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
   const existing = forCourse(course.id);
@@ -32,7 +34,10 @@ export function CompleteCourse({ course }: { course: Course }) {
         open={open}
         onClose={() => setOpen(false)}
         initial={initial}
-        onSaved={() => setJustSaved(true)}
+        onSaved={() => {
+          setJustSaved(true);
+          stop(course.id);
+        }}
       />
     </>
   );

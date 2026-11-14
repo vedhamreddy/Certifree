@@ -1,11 +1,12 @@
 "use client";
 import { useCallback, useSyncExternalStore } from "react";
+import { push } from "./sync";
 
 const KEY = "certifree:bookmarks";
 const listeners = new Set<() => void>();
 let cache: string[] | null = null;
 
-function read(): string[] {
+export function readBookmarks(): string[] {
   if (cache) return cache;
   try {
     cache = JSON.parse(localStorage.getItem(KEY) ?? "[]");
@@ -15,7 +16,8 @@ function read(): string[] {
   return cache!;
 }
 
-function write(ids: string[]) {
+/** Replace saved courses on this device only (used when applying a reviewed sync). */
+export function setBookmarksLocal(ids: string[]) {
   cache = ids;
   try {
     localStorage.setItem(KEY, JSON.stringify(ids));
@@ -31,12 +33,14 @@ export function useBookmarks() {
       listeners.add(cb);
       return () => listeners.delete(cb);
     },
-    read,
+    readBookmarks,
     () => empty,
   );
   const toggle = useCallback((id: string) => {
-    const cur = read();
-    write(cur.includes(id) ? cur.filter((x) => x !== id) : [id, ...cur]);
+    const cur = readBookmarks();
+    const saved = !cur.includes(id);
+    setBookmarksLocal(saved ? [id, ...cur] : cur.filter((x) => x !== id));
+    push.bookmark(id, saved);
   }, []);
   return { ids, toggle, has: (id: string) => ids.includes(id) };
 }

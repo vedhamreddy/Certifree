@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useSyncExternalStore } from "react";
+import { push } from "./sync";
 
 /** A certificate the user earned. Metadata lives in localStorage; files live in IndexedDB. */
 export type Certificate = {
@@ -22,7 +23,7 @@ const listeners = new Set<() => void>();
 let cache: Certificate[] | null = null;
 const empty: Certificate[] = [];
 
-function read(): Certificate[] {
+export function readCertificates(): Certificate[] {
   if (cache) return cache;
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) ?? "[]");
@@ -77,31 +78,52 @@ export function newId() {
   return typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
+/** Save on this device only. Returns the stored certificate. */
+export async function putCertificateLocal(cert: Certificate, file?: Blob | null, fileName?: string): Promise<Certificate> {
+  if (file) {
+    await tx("readwrite", (s) => s.put(file, cert.id));
+    cert = { ...cert, fileName: fileName ?? (file as File).name ?? "certificate", fileType: file.type };
+  }
+  const cur = readCertificates();
+  const exists = cur.some((c) => c.id === cert.id);
+  write(exists ? cur.map((c) => (c.id === cert.id ? cert : c)) : [cert, ...cur]);
+  return cert;
+}
+
+/** Remove a certificate and its file from this device only. */
+export async function removeCertificateLocal(id: string) {
+  try {
+    await tx("readwrite", (s) => s.delete(id));
+  } catch {}
+  write(readCertificates().filter((c) => c.id !== id));
+}
+
+/** Clear everything CertiFree keeps in this browser. */
+export async function clearCertificatesLocal() {
+  try {
+    await tx("readwrite", (s) => s.clear());
+  } catch {}
+  write([]);
+}
+
 export function useCertificates() {
   const list = useSyncExternalStore(
     (cb) => {
       listeners.add(cb);
       return () => listeners.delete(cb);
     },
-    read,
+    readCertificates,
     () => empty,
   );
 
   const save = useCallback(async (cert: Certificate, file?: File | null) => {
-    if (file) {
-      await tx("readwrite", (s) => s.put(file, cert.id));
-      cert = { ...cert, fileName: file.name, fileType: file.type };
-    }
-    const cur = read();
-    const exists = cur.some((c) => c.id === cert.id);
-    write(exists ? cur.map((c) => (c.id === cert.id ? cert : c)) : [cert, ...cur]);
+    const saved = await putCertificateLocal(cert, file);
+    push.certificate(saved, file);
   }, []);
 
   const remove = useCallback(async (id: string) => {
-    try {
-      await tx("readwrite", (s) => s.delete(id));
-    } catch {}
-    write(read().filter((c) => c.id !== id));
+    await removeCertificateLocal(id);
+    push.certificateDelete(id);
   }, []);
 
   return { list, save, remove, forCourse: (courseId: string) => list.find((c) => c.courseId === courseId) };

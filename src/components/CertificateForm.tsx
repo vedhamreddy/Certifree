@@ -4,6 +4,7 @@ import { providers } from "@/data/providers";
 import { domainLabels } from "@/data/courses";
 import { Certificate, MAX_FILE_MB, newId, useCertificates } from "@/lib/certificates";
 import { AlertCircle, Loader2, Paperclip, X } from "lucide-react";
+import { activeFor, useMe, useSyncSettings } from "@/lib/sync";
 
 type Props = {
   open: boolean;
@@ -28,6 +29,10 @@ export function CertificateForm({ open, onClose, initial, onSaved }: Props) {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
+  const me = useMe();
+  const sync = useSyncSettings();
+  const synced = activeFor(sync, me, "certificates");
+  const filesSynced = activeFor(sync, me, "files");
 
   useEffect(() => {
     if (!open) return;
@@ -87,7 +92,7 @@ export function CertificateForm({ open, onClose, initial, onSaved }: Props) {
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
             <h2 id="cert-form-title" className="font-display text-xl font-bold text-ink">{initial?.id ? "Edit certificate" : "Add your certificate"}</h2>
-            <p className="mt-1 text-sm text-muted">Saved privately on this device.</p>
+            <p className="mt-1 text-sm text-muted">{synced ? `Saved on this device and synced privately to your account${filesSynced ? ", including the file" : " (the file stays on this device)"}.` : "Saved privately on this device."}</p>
           </div>
           <button type="button" onClick={onClose} aria-label="Close" className="rounded-lg p-2 text-muted transition hover:bg-surface-2 hover:text-ink"><X size={18} strokeWidth={1.75} aria-hidden /></button>
         </div>

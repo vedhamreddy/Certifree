@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Manrope } from "next/font/google";
 import { Nav, TopBar } from "@/components/Nav";
 import { RegisterSW } from "@/components/RegisterSW";
+import { SyncWatcher } from "@/components/SyncWatcher";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Nav />
         <div className="min-h-dvh lg:pl-64">
           <TopBar />
+          <SyncWatcher />
           <main className="pb-24 lg:pb-0">{children}</main>
           <footer className="mx-auto max-w-7xl px-4 pb-28 pt-12 sm:px-6 lg:px-8 lg:pb-12">
             <div className="border-t border-line pt-6 text-sm leading-relaxed text-muted">
