@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
 import { useBookmarks } from "@/lib/bookmarks";
+import { withSignInNudge } from "./SignInPrompt";
 
 export function BookmarkButton({ id, withLabel = false }: { id: string; withLabel?: boolean }) {
   const { has, toggle } = useBookmarks();
@@ -13,8 +14,12 @@ export function BookmarkButton({ id, withLabel = false }: { id: string; withLabe
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        toggle(id);
-        setAnim((n) => n + 1);
+        const run = () => {
+          toggle(id);
+          setAnim((n) => n + 1);
+        };
+        if (on) run();
+        else withSignInNudge(run);
       }}
       aria-pressed={on}
       aria-label={on ? "Remove bookmark" : "Bookmark this course"}

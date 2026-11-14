@@ -5,6 +5,7 @@ import { Course } from "@/data/courses";
 import { useCertificates } from "@/lib/certificates";
 import { useLearning } from "@/lib/learning";
 import { CertificateForm } from "./CertificateForm";
+import { withSignInNudge } from "./SignInPrompt";
 import { CircleCheck, GraduationCap } from "lucide-react";
 
 export function CompleteCourse({ course }: { course: Course }) {
@@ -35,7 +36,7 @@ export function CompleteCourse({ course }: { course: Course }) {
         onClose={() => setOpen(false)}
         initial={initial}
         onSaved={() => {
-          setJustSaved(true);
+          withSignInNudge(() => setJustSaved(true));
           stop(course.id);
         }}
       />

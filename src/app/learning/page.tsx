@@ -8,6 +8,7 @@ import { LearningItem, today, useLearning } from "@/lib/learning";
 import { ProviderAvatar } from "@/components/ProviderAvatar";
 import { CertificateForm } from "@/components/CertificateForm";
 import type { Certificate } from "@/lib/certificates";
+import { withSignInNudge } from "@/components/SignInPrompt";
 
 const steps = [0, 25, 50, 75, 100];
 
@@ -111,7 +112,7 @@ export default function LearningPage() {
         open={!!done}
         onClose={() => setDone(null)}
         initial={initial}
-        onSaved={() => done && stop(done.courseId)}
+        onSaved={() => withSignInNudge(() => done && stop(done.courseId))}
       />
     </div>
   );

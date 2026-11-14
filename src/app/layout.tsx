@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import { Nav, TopBar } from "@/components/Nav";
 import { RegisterSW } from "@/components/RegisterSW";
 import { SyncWatcher } from "@/components/SyncWatcher";
+import { SignInPrompt } from "@/components/SignInPrompt";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </div>
           </footer>
         </div>
+        <SignInPrompt />
         <RegisterSW />
       </body>
     </html>

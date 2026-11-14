@@ -5,6 +5,7 @@ import { domainLabels, Domain } from "@/data/courses";
 import { Certificate, useCertificates } from "@/lib/certificates";
 import { CertificateCard, issuerName } from "@/components/CertificateCard";
 import { CertificateForm } from "@/components/CertificateForm";
+import { withSignInNudge } from "@/components/SignInPrompt";
 import { Download, GraduationCap, Plus, Trophy } from "lucide-react";
 
 function toCsv(list: Certificate[]) {
@@ -88,7 +89,7 @@ export default function CertificatesPage() {
         </>
       )}
 
-      <CertificateForm open={editing !== null} onClose={() => setEditing(null)} initial={editing ?? undefined} />
+      <CertificateForm open={editing !== null} onClose={() => setEditing(null)} initial={editing ?? undefined} onSaved={() => withSignInNudge(() => {})} />
     </div>
   );
 }
