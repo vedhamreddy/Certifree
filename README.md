@@ -36,6 +36,21 @@ npm run start      # serve the production build on http://localhost:3000
 npm run lint       # ESLint
 ```
 
+## Install as an app
+
+CertiFree is an installable web app (PWA): its own window or home-screen icon, app shortcuts, and offline access to pages you've opened. Installing needs the site served over HTTPS (any deployed address), or `localhost` on the same computer.
+
+| Device | Browser | How to install |
+| --- | --- | --- |
+| iPhone / iPad | Safari (also Chrome, Edge on iOS 16.4+) | Share → **Add to Home Screen** |
+| Android | Chrome, Samsung Internet, Edge | **Install** button in the app, or menu ⋮ → **Install app** |
+| Android | Firefox | menu ⋮ → **Add to Home screen** |
+| Mac | Safari 17+ | **File → Add to Dock** |
+| Mac, Windows, Linux, ChromeOS | Chrome, Edge, Brave, Opera | **Install app** in the sidebar, or the install icon in the address bar |
+| Mac, Windows, Linux | Firefox | Not supported by Firefox on desktop; use Chrome, Edge or Safari |
+
+The service worker (`public/sw.js`) runs in production builds only. It never caches `/api`, `/auth`, `/account` or `/sync`, and shows `/offline` when a page isn't available offline.
+
 ## Deploy
 
 ### Vercel (recommended, free)

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Award, BadgeCheck, BookOpen, Building2, CircleUserRound, Compass, Heart, House, LogIn, RefreshCw, Search, type LucideIcon } from "lucide-react";
 import { useMe } from "@/lib/sync";
+import { InstallSidebarItem } from "./InstallApp";
 import { Logo } from "./Logo";
 import { useBookmarks } from "@/lib/bookmarks";
 
@@ -65,6 +66,7 @@ export function Sidebar() {
             </Link>
           );
         })}
+        <InstallSidebarItem />
       </nav>
       <div className="m-3 rounded-2xl border border-line bg-surface-2 p-4">
         <div className="flex items-center gap-2 text-sm font-semibold text-ink">
@@ -101,7 +103,7 @@ export function TopBar() {
   const path = usePathname();
   const current = links.find((l) => active(path, l.href));
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-white/80 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-30 border-b border-line bg-white/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" aria-label="CertiFree home" className="lg:hidden"><Logo /></Link>
         <span className="hidden text-sm font-medium text-muted lg:block">{current?.label ?? "CertiFree"}</span>
@@ -132,11 +134,11 @@ export function BottomNav() {
       {links.map(({ href, label, icon: Icon }) => {
         const on = active(path, href);
         return (
-          <Link key={href} href={href} aria-current={on ? "page" : undefined} className={`relative flex min-w-0 flex-col items-center gap-1 px-0.5 py-2.5 text-[10.5px] font-medium transition-colors ${on ? "text-accent" : "text-muted"}`}>
+          <Link key={href} href={href} aria-current={on ? "page" : undefined} className={`relative flex min-w-0 flex-col items-center gap-1 px-0 py-2.5 text-[10px] font-medium tracking-[-0.01em] sm:text-[11px] transition-colors ${on ? "text-accent" : "text-muted"}`}>
             <span className={`grid h-7 w-11 place-items-center rounded-full transition-colors ${on ? "bg-accent/[0.08]" : ""}`}>
               <Icon size={20} strokeWidth={on ? 2 : 1.75} aria-hidden />
             </span>
-            <span className="max-w-full truncate">{label}</span>
+            <span className="max-w-full whitespace-nowrap">{label}</span>
             {href === "/saved" && ids.length > 0 && (
               <span className="absolute right-[calc(50%-22px)] top-1.5 h-2 w-2 rounded-full bg-accent ring-2 ring-white" aria-label={`${ids.length} saved`} />
             )}
