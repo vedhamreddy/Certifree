@@ -63,6 +63,20 @@ The service worker (`public/sw.js`) runs in production builds only. It never cac
 
 Every push to the main branch redeploys automatically.
 
+### Cloudflare Workers (OpenNext)
+
+The project includes `@opennextjs/cloudflare` and `wrangler.jsonc`, so it runs on Cloudflare Workers with sign-in and the API working.
+
+```bash
+npm install
+npx wrangler login          # opens Cloudflare in the browser
+npm run deploy              # builds with OpenNext and deploys the "certifree" worker
+```
+
+Then in Cloudflare → Workers & Pages → certifree → Settings → Variables and Secrets, add `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (as a secret) and `SITE_URL` (your workers.dev or custom address), and redeploy. Add `<SITE_URL>/auth/callback` to Supabase → Authentication → URL Configuration → Redirect URLs. `npm run preview` runs the Cloudflare build locally.
+
+Uploading the folder as a static site (Pages drag-and-drop) won't work: CertiFree needs the server for sign-in and the API.
+
 ### Netlify or any Node host
 
 Netlify detects Next.js automatically: import the repo and deploy. On any other host, run `npm ci && npm run build`, then `npm run start` (set `PORT` if needed).
