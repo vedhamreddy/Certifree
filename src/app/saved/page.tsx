@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
-import { courseById } from "@/data/courses";
+import { useCatalog } from "@/lib/useCatalog";
 import { useBookmarks } from "@/lib/bookmarks";
 import { CourseCard } from "@/components/CourseCard";
 import { Heart } from "lucide-react";
 
 export default function SavedPage() {
   const { ids } = useBookmarks();
+  const { byId: courseById } = useCatalog();
   const list = ids.map((id) => courseById[id]).filter(Boolean);
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

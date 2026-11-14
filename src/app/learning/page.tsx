@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowUpRight, BookOpen, CalendarClock, GraduationCap, X } from "lucide-react";
-import { courseById } from "@/data/courses";
+import { useCatalog } from "@/lib/useCatalog";
 import { providerBySlug } from "@/data/providers";
 import { LearningItem, today, useLearning } from "@/lib/learning";
 import { ProviderAvatar } from "@/components/ProviderAvatar";
@@ -19,6 +19,7 @@ function fmt(d: string) {
 
 function Row({ item, onDone }: { item: LearningItem; onDone: (i: LearningItem) => void }) {
   const { update, stop } = useLearning();
+  const { byId: courseById } = useCatalog();
   const c = courseById[item.courseId];
   if (!c) return null;
   const p = providerBySlug[c.provider];
@@ -85,12 +86,13 @@ function Row({ item, onDone }: { item: LearningItem; onDone: (i: LearningItem) =
 
 export default function LearningPage() {
   const { list, stop } = useLearning();
+  const { byId: courseById } = useCatalog();
   const [done, setDone] = useState<LearningItem | null>(null);
-  const shown = useMemo(() => list.filter((x) => courseById[x.courseId]), [list]);
+  const shown = useMemo(() => list.filter((x) => courseById[x.courseId]), [list, courseById]);
   const initial = useMemo<Partial<Certificate> | undefined>(() => {
     const c = done && courseById[done.courseId];
     return c ? { courseId: c.id, title: c.title, provider: c.provider, domain: c.domain } : undefined;
-  }, [done]);
+  }, [done, courseById]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

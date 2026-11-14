@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Download, KeyRound, LogOut, Mail, RefreshCw, ShieldCheck, UserRound } from "lucide-react";
+import { BellRing, Download, KeyRound, LogOut, Mail, RefreshCw, ShieldCheck, UserRound } from "lucide-react";
 import { authEnabled } from "@/lib/supabase/env";
 import { createClient, getAuthed, isRecentSignIn, needsMfa } from "@/lib/supabase/server";
 import { signOut } from "@/app/auth/actions";
 import { AccountsOff } from "@/components/AccountsOff";
-import { ChangeEmailForm, DeleteAccountForm, DisplayNameForm, MfaSection } from "./AccountForms";
+import { ChangeEmailForm, DeleteAccountForm, DisplayNameForm, EmailAlertsForm, MfaSection } from "./AccountForms";
 
 export const metadata: Metadata = { title: "Account", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -31,9 +31,10 @@ export default async function AccountPage() {
   const a = await getAuthed();
   if (!a) redirect("/auth/sign-in?next=/account");
   const recent = await isRecentSignIn(a.supabase);
-  const [{ data: profile }, { data: factors }] = await Promise.all([
+  const [{ data: profile }, { data: factors }, { data: alerts }] = await Promise.all([
     a.supabase.from("profiles").select("display_name").eq("id", a.user.id).maybeSingle(),
     a.supabase.auth.mfa.listFactors(),
+    a.supabase.from("email_alerts").select("enabled").eq("user_id", a.user.id).maybeSingle(),
   ]);
   const mfaOn = (factors?.totp ?? []).length > 0;
   const reauth = (
@@ -62,6 +63,9 @@ export default async function AccountPage() {
           <DisplayNameForm initial={profile?.display_name ?? ""} />
         </Card>
 
+        <Card icon={BellRing} title="Email alerts">
+          <EmailAlertsForm initial={!!alerts?.enabled} />
+        </Card>
         <Card icon={Mail} title="Email address">
           {recent ? <ChangeEmailForm current={a.user.email ?? ""} /> : reauth}
         </Card>

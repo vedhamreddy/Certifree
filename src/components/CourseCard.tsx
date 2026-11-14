@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { CircleCheck, Clock3, SignalMedium } from "lucide-react";
 import { providerBySlug } from "@/data/providers";
-import { Course, levelLabels } from "@/data/courses";
+import { Course } from "@/data/courses";
+import { T } from "@/lib/i18n";
 import { ProviderAvatar } from "./ProviderAvatar";
 import { CostTag, CredentialTag } from "./Tags";
 import { BookmarkButton } from "./BookmarkButton";
+import { PriorityBadge } from "./PriorityBadge";
+import { ClosesBadge } from "./ClosesBadge";
 
 export function formatHours(h?: number) {
   if (h == null) return null;
@@ -33,16 +36,18 @@ export function CourseCard({ course }: { course: Course }) {
       <div className="flex flex-wrap gap-1.5">
         <CostTag cost={course.cost} />
         <CredentialTag credential={course.credential} />
+        <ClosesBadge date={course.closesOn} />
       </div>
+      {course.priority && <div className="mt-3"><PriorityBadge priority={course.priority} reason={course.priorityReason} /></div>}
       <div className="min-h-4 flex-1" />
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t border-line pt-3.5 text-[13px] text-muted">
         <span className="flex flex-wrap items-center gap-x-3 gap-y-1 whitespace-nowrap">
-          <span className="inline-flex items-center gap-1"><SignalMedium size={14} strokeWidth={1.75} aria-hidden />{levelLabels[course.level]}</span>
+          <span className="inline-flex items-center gap-1"><SignalMedium size={14} strokeWidth={1.75} aria-hidden /><T k={`level.${course.level}`} /></span>
           {time && <span className="inline-flex items-center gap-1"><Clock3 size={14} strokeWidth={1.75} aria-hidden />{time}</span>}
         </span>
         {course.verified && (
           <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs font-medium text-free" title={`Checked ${course.verified}`}>
-            <CircleCheck size={13} strokeWidth={2} aria-hidden /> Checked
+            <CircleCheck size={13} strokeWidth={2} aria-hidden /> <T k="card.checked" />
           </span>
         )}
       </div>

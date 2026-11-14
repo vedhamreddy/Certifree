@@ -7,15 +7,15 @@
   --color-accent: #0a0a0a;
   --color-free: #059669;
   --color-danger: #dc2626;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-manrope), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-sans: var(--font-inter), var(--font-deva), var(--font-telugu), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-manrope), var(--font-inter), var(--font-deva), var(--font-telugu), ui-sans-serif, sans-serif;
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.03);
   --shadow-lift: 0 2px 4px -2px rgba(0, 0, 0, 0.04), 0 12px 28px -10px rgba(0, 0, 0, 0.10);
   --shadow-pop: 0 24px 48px -12px rgba(0, 0, 0, 0.20);
 }
 
 :root {
-  --bg: #ececec; /* page behind the app shell */
+  --bg: #f2f2f2; /* page behind the app shell */
   --surface: #ffffff;
   --surface-2: #f5f5f5;
   --border: #ebebeb;
@@ -39,7 +39,7 @@ html {
 }
 
 body {
-  background: #e9e9e9;
+  background: #f2f2f2;
   color: var(--text);
   font-feature-settings: "cv11", "ss01";
 }
@@ -79,62 +79,45 @@ h1, h2, h3 {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* ---------- Page backdrop: soft grey mesh, dot grid, grain and drifting light ---------- */
+/* ---------- Page backdrop: soft black-and-white halftone swirl ---------- */
 .app-backdrop {
   position: fixed;
   inset: 0;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
-  background-color: #e9e9e9;
-  background-image:
-    radial-gradient(60rem 40rem at 8% -10%, #ffffff 0%, rgba(255, 255, 255, 0) 60%),
-    radial-gradient(50rem 36rem at 105% 15%, #f6f6f6 0%, rgba(246, 246, 246, 0) 55%),
-    radial-gradient(48rem 40rem at 40% 115%, #cfcfcf 0%, rgba(207, 207, 207, 0) 60%),
-    radial-gradient(36rem 28rem at 95% 95%, #e2e2e2 0%, rgba(226, 226, 226, 0) 60%);
+  background-color: #f2f2f2;
 }
 .app-backdrop::before {
-  /* faint dot grid that fades out toward the edges */
+  /* the swirl image, faded so it reads as texture, drifting very slowly */
   content: "";
   position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.13) 1px, transparent 1.3px);
-  background-size: 22px 22px;
-  mask-image: radial-gradient(ellipse 80% 70% at 30% 20%, #000 0%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 20%, #000 0%, transparent 75%);
-}
-.app-backdrop::after {
-  /* film grain (tiny inline SVG noise, no image download) */
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.35;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.app-backdrop .orb {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(70px);
+  inset: -6%;
+  background: url("/bg-swirl.webp") center / cover no-repeat;
+  opacity: 0.22;
+  animation: swirl-drift 90s ease-in-out infinite alternate;
   will-change: transform;
 }
-.app-backdrop .orb-1 {
-  width: 34rem; height: 34rem; left: -8rem; top: 20%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
-  animation: drift-1 38s ease-in-out infinite alternate;
+.app-backdrop::after {
+  /* gentle light from the top so the logo and nav stay crisp */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60rem 30rem at 20% 0%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 70%);
 }
-.app-backdrop .orb-2 {
-  width: 28rem; height: 28rem; right: -6rem; top: -6rem;
-  background: radial-gradient(circle, rgba(200, 200, 200, 0.55), rgba(200, 200, 200, 0));
-  animation: drift-2 46s ease-in-out infinite alternate;
+@keyframes swirl-drift {
+  from { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  to { transform: translate3d(-2%, 2%, 0) scale(1.06) rotate(1.5deg); }
 }
-.app-backdrop .orb-3 {
-  width: 30rem; height: 30rem; right: 18%; bottom: -12rem;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
-  animation: drift-1 52s ease-in-out infinite alternate-reverse;
+
+/* The app shell is translucent, so the backdrop shows through softly.
+   (No backdrop-filter here: it would break the fixed sheets and dialogs inside the page.) */
+.shell-glass {
+  background-color: rgba(255, 255, 255, 0.72);
 }
-@keyframes drift-1 { to { transform: translate3d(6rem, -4rem, 0) scale(1.08); } }
-@keyframes drift-2 { to { transform: translate3d(-5rem, 5rem, 0) scale(0.94); } }
+@media (min-width: 1024px) {
+  .shell-glass { background-color: rgba(255, 255, 255, 0.86); }
+}
 
 /* Dark hero card on the dashboard: subtle sheen, dot grid and a soft glow */
 .hero-dark {
@@ -158,5 +141,5 @@ h1, h2, h3 {
 }
 /* Very soft wash at the top of the white shell */
 .shell-wash {
-  background-image: radial-gradient(70rem 18rem at 50% -6rem, #f3f3f3 0%, rgba(243, 243, 243, 0) 100%);
+  background-image: radial-gradient(70rem 18rem at 50% -6rem, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
 }

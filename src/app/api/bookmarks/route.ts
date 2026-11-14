@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     const body = await req.json().catch(() => null);
     const add: unknown[] = Array.isArray(body?.add) ? body.add : [];
     const remove: unknown[] = Array.isArray(body?.remove) ? body.remove : [];
-    if (add.length + remove.length > 500 || ![...add, ...remove].every(isCourseId)) return fail(400, "invalid");
+    if (add.length + remove.length > 500 || !add.every(isCourseId) || !remove.every((id) => typeof id === "string" && /^[a-z0-9-]{1,80}$/.test(id))) return fail(400, "invalid");
     if (add.length) {
       const { error } = await supabase
         .from("bookmarks")

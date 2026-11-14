@@ -5,9 +5,19 @@ import { domainLabels, Domain } from "@/data/courses";
 import { Certificate, getCertificateFile, useCertificates } from "@/lib/certificates";
 import { ProviderAvatar } from "./ProviderAvatar";
 import { ArrowUpRight, CalendarCheck, Eye, FileText, GraduationCap, Pencil, Trash2 } from "lucide-react";
+import { Linkedin } from "./LinkedinIcon";
 
 export function issuerName(c: Certificate) {
   return c.provider === "other" ? c.providerName ?? "Other" : providerBySlug[c.provider]?.name ?? c.provider;
+}
+
+/** LinkedIn's official "Add licence or certification" link, pre-filled. Nothing is sent until the learner saves it on LinkedIn. */
+export function linkedInUrl(c: Certificate) {
+  const [y, m] = c.issuedOn.split("-").map(Number);
+  const p = new URLSearchParams({ startTask: "CERTIFICATION_NAME", name: c.title, organizationName: issuerName(c), issueYear: String(y), issueMonth: String(m) });
+  if (c.link) p.set("certUrl", c.link);
+  if (c.credentialId) p.set("certId", c.credentialId);
+  return `https://www.linkedin.com/profile/add?${p.toString()}`;
 }
 
 function formatDate(d: string) {
@@ -67,6 +77,7 @@ export function CertificateCard({ cert, onEdit }: { cert: Certificate; onEdit: (
         <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-4 text-sm font-semibold">
           {url && <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-lg bg-brand px-3 py-1.5 text-white transition hover:bg-brand-600"><Eye size={14} strokeWidth={2} aria-hidden />View</a>}
           {cert.link && <a href={cert.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-lg border border-line px-3 py-1.5 text-ink transition hover:border-slate-300 hover:bg-surface-2">Verify <ArrowUpRight size={14} strokeWidth={2} aria-hidden /></a>}
+          <a href={linkedInUrl(cert)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded-lg border border-line px-3 py-1.5 text-ink transition hover:border-slate-300 hover:bg-surface-2" aria-label={`Add ${cert.title} to LinkedIn`}><Linkedin size={13} strokeWidth={2} aria-hidden />LinkedIn</a>
           <button type="button" onClick={() => onEdit(cert)} className="inline-flex items-center gap-1 rounded-lg border border-line px-3 py-1.5 text-ink transition hover:border-slate-300 hover:bg-surface-2"><Pencil size={13} strokeWidth={2} aria-hidden />Edit</button>
           {confirming ? (
             <span className="flex gap-1">

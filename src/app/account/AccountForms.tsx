@@ -2,7 +2,7 @@
 import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import { changeEmail, confirmMfaEnroll, deleteAccount, removeMfa, startMfaEnroll, updateDisplayName, type Result } from "./actions";
+import { changeEmail, confirmMfaEnroll, deleteAccount, removeMfa, setEmailAlerts, startMfaEnroll, updateDisplayName, type Result } from "./actions";
 import { writeSettings, clearSyncProblem } from "@/lib/sync";
 import { setBookmarksLocal } from "@/lib/bookmarks";
 import { setLearningLocal } from "@/lib/learning";
@@ -16,6 +16,24 @@ function Msg({ r, ok }: { r: Result; ok: string }) {
   if (r.error) return <p role="alert" className="mt-2 text-sm text-danger">{r.error}{r.reauth && <> <a className="font-semibold underline" href="/auth/sign-in?next=/account&reauth=1">Confirm it&apos;s you</a></>}</p>;
   if (r.ok) return <p role="status" className="mt-2 text-sm text-free">{ok}</p>;
   return null;
+}
+
+export function EmailAlertsForm({ initial }: { initial: boolean }) {
+  const [r, act, pending] = useActionState(setEmailAlerts, {});
+  const [on, setOn] = useState(initial);
+  return (
+    <form action={act}>
+      <label className="flex items-start gap-3">
+        <input type="checkbox" name="enabled" checked={on} onChange={(e) => setOn(e.target.checked)} className="mt-1 h-4 w-4 accent-black" />
+        <span>
+          <span className="block text-sm font-semibold text-ink">Weekly email: new free courses and closing deadlines</span>
+          <span className="block text-sm text-muted">At most one email a week, only when there&apos;s something new. Every email has a one-click unsubscribe link.</span>
+        </span>
+      </label>
+      <button disabled={pending} className={`${btn2} mt-3`}>Save</button>
+      <Msg r={r} ok={r.data?.enabled === "true" ? "Alerts are on." : "Alerts are off."} />
+    </form>
+  );
 }
 
 export function DisplayNameForm({ initial }: { initial: string }) {

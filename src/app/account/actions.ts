@@ -96,3 +96,19 @@ export async function deleteAccount(_: Result, form: FormData): Promise<Result> 
   for (const c of store.getAll()) if (c.name.startsWith("sb-")) store.delete(c.name);
   return { ok: true };
 }
+
+/** Weekly email alerts on or off. Only the on/off switch is stored; no email address is copied. */
+export async function setEmailAlerts(_: Result, form: FormData): Promise<Result> {
+  const a = await authed();
+  if ("error" in a) return a;
+  const enabled = form.get("enabled") === "on";
+  if (!limit(`alerts:${a.user.id}`, 20, 60 * 60_000)) return { error: "Too many changes. Try again later." };
+  const { data, error } = await a.supabase.from("email_alerts").update({ enabled }).eq("user_id", a.user.id).select("user_id");
+  if (error) return { error: "Couldn't save. Try again." };
+  if (!data?.length) {
+    const { error: insErr } = await a.supabase.from("email_alerts").insert({ enabled });
+    if (insErr) return { error: "Couldn't save. Try again." };
+  }
+  revalidatePath("/account");
+  return { ok: true, data: { enabled: String(enabled) } };
+}

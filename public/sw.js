@@ -2,10 +2,10 @@
 // Pages: network first, falling back to the last copy, then to /offline.
 // Built assets (/_next/static, icons): cache first, they never change.
 // Personal data (API responses, account, sign-in and sync pages) is never cached.
-const VERSION = "v3";
+const VERSION = "v4";
 const PAGES = `certifree-pages-${VERSION}`;
 const ASSETS = `certifree-assets-${VERSION}`;
-const PRIVATE = ["/api/", "/auth/", "/account", "/sync"];
+const PRIVATE = ["/api/", "/auth/", "/account", "/sync", "/admin", "/unsubscribe"];
 const PRECACHE = ["/", "/offline", "/saved", "/learning", "/certificates", "/courses", "/icon-192.png", "/icon.svg"];
 
 self.addEventListener("install", (e) => {

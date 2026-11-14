@@ -1,15 +1,27 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "certifree",
-  "main": ".open-next/worker.js",
+  "main": "custom-worker.ts",
   "compatibility_date": "2026-11-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  // Public settings only. Deploying replaces plain dashboard variables with this list.
+  "vars": {
+    "SUPABASE_URL": "https://lgtghrmqnjjkqpamkfmb.supabase.co",
+    "SITE_URL": "https://certifree.vedhamreddym.workers.dev"
+  },
+  // Keys are NOT here. Set them once as encrypted Secrets (deploys never remove secrets):
+  //   npx wrangler secret put SUPABASE_ANON_KEY
+  //   npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+  //   npx wrangler secret put RESEND_API_KEY      (optional: email alerts)
+  //   npx wrangler secret put EMAIL_FROM          (optional: e.g. CertiFree <alerts@yourdomain.com>)
+  // Scheduled jobs (UTC): catalog update + link check every 6 hours; email alerts daily at 03:00
+  // (each learner gets at most one email a week). Email needs the secrets RESEND_API_KEY and EMAIL_FROM.
+  "triggers": { "crons": ["17 */6 * * *", "0 3 * * *"] },
+  // `npm run preview:link` uploads a test version with its own preview URL, without changing the live site.
+  "preview_urls": true,
   "observability": { "enabled": true }
-  // Secrets (SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, SITE_URL)
-  // are set in the Cloudflare dashboard or with `npx wrangler secret put NAME`,
-  // never in this file.
 }

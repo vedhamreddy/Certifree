@@ -2,6 +2,7 @@ import "server-only";
 import { NextResponse } from "next/server";
 import { getAuthed, isRecentSignIn, type Authed } from "./supabase/server";
 import { courseById } from "@/data/courses";
+import { addedCourseIds } from "./catalog-server";
 import { providerBySlug } from "@/data/providers";
 import { domainLabels } from "@/data/courses";
 import type { Certificate } from "./certificates";
@@ -33,6 +34,7 @@ export async function withUser(req: Request, fn: (a: Authed) => Promise<Response
   if (req.method !== "GET" && !sameOrigin(req)) return fail(403, "forbidden");
   const authed = await getAuthed();
   if (!authed) return fail(401, "signed_out");
+  if (req.method !== "GET") await refreshCourseIds();
   if (opts.recent && !(await isRecentSignIn(authed.supabase))) return fail(403, "reauth_required");
   try {
     return await fn(authed);
@@ -49,7 +51,12 @@ const str = (v: unknown, max: number) => (typeof v === "string" && v.trim().leng
 const validDate = (v: unknown) => typeof v === "string" && DATE_RE.test(v) && !Number.isNaN(Date.parse(v));
 
 export const isCertId = (id: string) => ID_RE.test(id);
-export const isCourseId = (id: unknown): id is string => typeof id === "string" && !!courseById[id];
+// Automatically added courses (refreshed before every write request in withUser).
+let autoIds = new Set<string>();
+export async function refreshCourseIds() {
+  autoIds = await addedCourseIds();
+}
+export const isCourseId = (id: unknown): id is string => typeof id === "string" && (!!courseById[id] || autoIds.has(id));
 
 export function parseCertificate(id: string, body: unknown) {
   const b = (body ?? {}) as Record<string, unknown>;

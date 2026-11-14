@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { CloudUpload, LockKeyhole, Smartphone, X } from "lucide-react";
 import { fetchMe } from "@/lib/sync";
+import { useT } from "@/lib/i18n";
 
 /**
  * Friendly nudge shown when a signed-out learner saves something for the first time.
@@ -44,6 +45,7 @@ export function SignInPrompt() {
     () => false,
   );
   const first = useRef<HTMLAnchorElement>(null);
+  const t = useT();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -65,22 +67,22 @@ export function SignInPrompt() {
     <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-labelledby="signin-prompt-title">
       <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-sm" onClick={() => setOpen(false)} />
       <div className="sheet-in relative w-full max-w-md rounded-t-2xl border border-line bg-white p-6 shadow-pop sm:rounded-3xl sm:p-8">
-        <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="absolute right-4 top-4 rounded-lg p-2 text-muted transition hover:bg-surface-2 hover:text-ink">
+        <button type="button" onClick={() => setOpen(false)} aria-label={t("prompt.close")} className="absolute right-4 top-4 rounded-lg p-2 text-muted transition hover:bg-surface-2 hover:text-ink">
           <X size={18} strokeWidth={1.75} aria-hidden />
         </button>
         <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/[0.08] text-accent"><CloudUpload size={22} strokeWidth={1.75} aria-hidden /></span>
-        <h2 id="signin-prompt-title" className="mt-4 font-display text-xl font-bold text-ink">Sign in to save your progress</h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted">It&apos;s saved on this device already. Sign in to keep it safe and see it on your phone and other devices.</p>
+        <h2 id="signin-prompt-title" className="mt-4 font-display text-xl font-bold text-ink">{t("prompt.title")}</h2>
+        <p className="mt-2 text-sm leading-relaxed text-muted">{t("prompt.text")}</p>
         <ul className="mt-4 space-y-2 text-sm text-ink">
-          <li className="flex gap-2"><Smartphone size={16} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden />Saved courses, My Courses and certificates on every device</li>
-          <li className="flex gap-2"><LockKeyhole size={16} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden />Private to you. You choose what to sync before anything uploads</li>
+          <li className="flex gap-2"><Smartphone size={16} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden />{t("prompt.b1")}</li>
+          <li className="flex gap-2"><LockKeyhole size={16} strokeWidth={1.75} className="mt-0.5 shrink-0 text-accent" aria-hidden />{t("prompt.b2")}</li>
         </ul>
         <div className="mt-6 grid gap-2">
           <Link ref={first} href="/auth/sign-in?next=/sync" onClick={() => setOpen(false)} className="inline-flex h-11 items-center justify-center rounded-full bg-brand text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.99]">
-            Sign in
+            {t("prompt.signIn")}
           </Link>
           <button type="button" onClick={local} className="h-11 rounded-full border border-line bg-white text-sm font-semibold text-ink transition hover:border-slate-300 hover:bg-surface-2">
-            Continue without account
+            {t("prompt.continue")}
           </button>
         </div>
       </div>

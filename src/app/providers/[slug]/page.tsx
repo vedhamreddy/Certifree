@@ -13,7 +13,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const c = providerBySlug[(await params).slug];
-  return c ? { title: `Free ${c.name} courses`, description: c.blurb } : {};
+  return c ? { title: `Free ${c.name} courses`, description: c.blurb, alternates: { canonical: `/providers/${c.slug}` }, openGraph: { title: `Free ${c.name} courses`, description: c.blurb, url: `/providers/${c.slug}` }, twitter: { card: "summary_large_image", title: `Free ${c.name} courses`, description: c.blurb } } : {};
 }
 
 export default async function ProviderPage({ params }: { params: Promise<{ slug: string }> }) {

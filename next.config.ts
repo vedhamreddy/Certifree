@@ -35,6 +35,8 @@ const nextConfig: NextConfig = {
       { source: "/auth/:path*", headers: privateHeaders },
       { source: "/account", headers: privateHeaders },
       { source: "/sync", headers: privateHeaders },
+      { source: "/admin/:path*", headers: privateHeaders },
+      { source: "/unsubscribe", headers: privateHeaders },
     ];
   },
 };

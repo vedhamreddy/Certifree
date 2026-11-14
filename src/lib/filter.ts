@@ -7,7 +7,9 @@ export type Filters = {
   domain?: string[];
   level?: string[];
   cost?: string[];
-  sort?: "relevance" | "short" | "az";
+  priority?: string[];
+  credit?: string[];
+  sort?: "relevance" | "short" | "az" | "priority";
 };
 
 const norm = (s: string) => s.toLowerCase().normalize("NFKD");
@@ -36,10 +38,11 @@ export function filterCourses(f: Filters, list: Course[] = courses): Course[] {
   const terms = norm(f.q ?? "").split(/\s+/).filter(Boolean);
   const inSet = (vals: string[] | undefined, v: string) => !vals?.length || vals.includes(v);
   const scored = list
-    .filter((c) => inSet(f.provider, c.provider) && inSet(f.domain, c.domain) && inSet(f.level, c.level) && inSet(f.cost, c.cost))
+    .filter((c) => inSet(f.provider, c.provider) && inSet(f.domain, c.domain) && inSet(f.level, c.level) && inSet(f.cost, c.cost) && inSet(f.priority, String(c.priority ?? "")) && (!f.credit?.length || !!c.academic?.credit))
     .map((c) => ({ c, s: score(c, terms) }))
     .filter((x) => x.s > 0);
-  if (f.sort === "short") scored.sort((a, b) => (a.c.hours ?? 1e9) - (b.c.hours ?? 1e9));
+  if (f.sort === "priority") scored.sort((a, b) => (b.c.priority ?? 0) - (a.c.priority ?? 0) || b.s - a.s);
+  else if (f.sort === "short") scored.sort((a, b) => (a.c.hours ?? 1e9) - (b.c.hours ?? 1e9));
   else if (f.sort === "az") scored.sort((a, b) => a.c.title.localeCompare(b.c.title));
   else scored.sort((a, b) => b.s - a.s || Number(!!b.c.trending) - Number(!!a.c.trending) || freeRank(a.c) - freeRank(b.c));
   return scored.map((x) => x.c);

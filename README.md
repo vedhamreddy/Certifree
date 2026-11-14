@@ -163,3 +163,21 @@ public/                icons, logo, service worker
 2. Automatic catalog updates (for example the Microsoft Learn Catalog API) on a GitHub Actions schedule
 3. Deadlines and email reminders for free exam campaigns and NPTEL enrolment
 4. "Report wrong info" button and an admin page for corrections
+
+## Automatic catalog updates
+
+Every 6 hours a Cloudflare Cron Trigger runs `src/lib/catalog-sync.ts` (wired up in `custom-worker.ts`):
+
+- **New courses:** adds every Microsoft Learn Applied Skills credential (free) from Microsoft's official Catalog API. Courses that drop out of the feed for 3 days are retired.
+- **Dead links:** checks 20 course links per run (all courses within a day). A link that returns 404/410 twice in a row hides the course until it works again.
+- **Hide a course yourself:** Supabase → Table Editor → `course_status` → add or edit the row for that `course_id` and set `hidden = true`.
+
+Setup: run `supabase/migrations/0002_auto_catalog.sql` once in the Supabase SQL editor. The job needs the `SUPABASE_SERVICE_ROLE_KEY` secret. Logs: Cloudflare dashboard → Workers → certifree → Logs. The site reads updates from `/catalog.json` and falls back to the bundled list if Supabase is unreachable.
+
+Other providers (Google, AWS, IBM, Cisco, Coursera, edX, NPTEL, Kaggle...) don't publish a free public catalog feed, so their new courses still need to be added to `src/data/courses.ts` by hand.
+
+## Email alerts (optional)
+
+Signed-in learners can switch on a weekly email (Account → Email alerts) about new free courses and offers closing soon. A daily cron (03:00 UTC) sends it through [Resend](https://resend.com), at most once every 6 days per learner and only when there's news. Email addresses are read from Supabase Auth at send time and never copied. Every email has one-click unsubscribe.
+
+Setup: run `supabase/migrations/0004_email_alerts.sql`, verify a domain in Resend, then `npx wrangler secret put RESEND_API_KEY` and `npx wrangler secret put EMAIL_FROM` (e.g. `CertiFree <alerts@yourdomain.com>`). Without these two secrets the job just skips.

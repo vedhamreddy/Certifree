@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { Download, EllipsisVertical, MonitorDown, Share, SquarePlus, X } from "lucide-react";
 import { useInstall, type InstallMode } from "@/lib/install";
+import { useT } from "@/lib/i18n";
+import { useCompare } from "@/lib/compare";
 
 const DISMISS = "certifree:install-dismissed";
 const ic = "inline text-accent align-[-3px]";
@@ -42,6 +44,7 @@ function Steps({ mode }: { mode: InstallMode }) {
 export function InstallSidebarItem() {
   const { mode, install } = useInstall();
   const [help, setHelp] = useState(false);
+  const t = useT();
   if (mode === "installed") return null;
   return (
     <div>
@@ -54,7 +57,7 @@ export function InstallSidebarItem() {
         <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink ring-1 ring-inset ring-line group-hover:bg-surface-2">
           <Download size={17} strokeWidth={1.75} aria-hidden />
         </span>
-        Install app
+        {t("nav.install")}
       </button>
       {help && mode !== "prompt" && <div className="mx-1 mb-2 mt-1 rounded-2xl bg-white p-3 ring-1 ring-inset ring-line"><Steps mode={mode} /></div>}
     </div>
@@ -65,14 +68,28 @@ export function InstallSidebarItem() {
 export function InstallBanner() {
   const { mode, install } = useInstall();
   const [hidden, setHidden] = useState(true);
+  const t = useT();
+  const comparing = useCompare().ids.length > 0; // the compare bar uses the same spot
   useEffect(() => {
+    let dismissed = false;
     try {
-      setHidden(localStorage.getItem(DISMISS) === "1");
-    } catch {
+      dismissed = localStorage.getItem(DISMISS) === "1";
+    } catch {}
+    if (dismissed) return;
+    // Don't cover the page on arrival: show after 6 seconds or the first scroll.
+    const show = () => {
       setHidden(false);
-    }
+      window.removeEventListener("scroll", show);
+      clearTimeout(t);
+    };
+    const t = setTimeout(show, 6000);
+    window.addEventListener("scroll", show, { passive: true, once: true });
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("scroll", show);
+    };
   }, []);
-  if (hidden || mode === "installed" || mode === "firefox") return null;
+  if (hidden || comparing || mode === "installed" || mode === "firefox") return null;
   const dismiss = () => {
     try {
       localStorage.setItem(DISMISS, "1");
@@ -85,15 +102,15 @@ export function InstallBanner() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/icon-192.png" alt="" width={40} height={40} className="h-10 w-10 shrink-0 rounded-xl" />
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-ink">Install CertiFree</p>
-          {mode === "prompt" ? <p className="mt-0.5 text-sm text-muted">Open it from your home screen, full screen, even offline.</p> : <Steps mode={mode} />}
+          <p className="font-semibold text-ink">{t("install.title")}</p>
+          {mode === "prompt" ? <p className="mt-0.5 text-sm text-muted">{t("install.text")}</p> : <Steps mode={mode} />}
           {mode === "prompt" && (
             <button type="button" onClick={async () => { if (await install()) dismiss(); }} className="mt-3 inline-flex h-9 items-center gap-1.5 rounded-full bg-brand px-3 text-sm font-semibold text-white transition hover:bg-brand-600">
-              <Download size={15} strokeWidth={1.75} aria-hidden /> Install
+              <Download size={15} strokeWidth={1.75} aria-hidden /> {t("install.button")}
             </button>
           )}
         </div>
-        <button type="button" onClick={dismiss} aria-label="Dismiss" className="rounded-lg p-1.5 text-muted transition hover:bg-surface-2 hover:text-ink"><X size={16} strokeWidth={1.75} aria-hidden /></button>
+        <button type="button" onClick={dismiss} aria-label={t("install.dismiss")} className="rounded-lg p-1.5 text-muted transition hover:bg-surface-2 hover:text-ink"><X size={16} strokeWidth={1.75} aria-hidden /></button>
       </div>
     </div>
   );
