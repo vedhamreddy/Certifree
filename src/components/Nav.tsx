@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Award, BadgeCheck, BookOpen, Building2, CircleUserRound, Compass, Heart, House, RefreshCw, Search, type LucideIcon } from "lucide-react";
+import { Award, BadgeCheck, BookOpen, Building2, CircleUserRound, Compass, Heart, House, LogIn, RefreshCw, Search, type LucideIcon } from "lucide-react";
 import { useMe } from "@/lib/sync";
 import { Logo } from "./Logo";
 import { useBookmarks } from "@/lib/bookmarks";
@@ -47,6 +47,24 @@ export function Sidebar() {
             </Link>
           );
         })}
+        <p className="px-3 pb-2 pt-5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">You</p>
+        {[
+          { href: "/account", label: "Account", icon: CircleUserRound },
+          { href: "/sync", label: "Sync devices", icon: RefreshCw },
+        ].map(({ href, label, icon: Icon }) => {
+          const on = path.startsWith(href) || (href === "/account" && path.startsWith("/auth"));
+          return (
+            <Link
+              key={href}
+              href={href}
+              aria-current={on ? "page" : undefined}
+              className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium transition-colors duration-150 ${on ? "bg-accent/[0.08] text-brand" : "text-muted hover:bg-surface-2 hover:text-ink"}`}
+            >
+              <Icon size={18} strokeWidth={1.75} className={on ? "text-accent" : "text-muted transition-colors group-hover:text-ink"} aria-hidden />
+              {label}
+            </Link>
+          );
+        })}
       </nav>
       <div className="m-3 rounded-2xl border border-line bg-surface-2 p-4">
         <div className="flex items-center gap-2 text-sm font-semibold text-ink">
@@ -61,20 +79,19 @@ export function Sidebar() {
   );
 }
 
-/** Account entry: hidden when accounts aren't configured, so local-only use looks exactly as before. */
+/** Account entry, always visible. Signed out (or accounts not set up yet) it reads "Sign in". */
 function AccountLink() {
   const me = useMe();
-  if (!me?.enabled) return null;
-  if (!me.signedIn) {
+  if (me?.signedIn) {
     return (
-      <Link href="/sync" className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-line bg-white px-3 text-sm font-semibold text-ink shadow-card transition hover:border-slate-300 hover:bg-surface-2">
-        <RefreshCw size={15} strokeWidth={1.75} aria-hidden /> <span className="hidden sm:inline">Sync</span><span className="sm:hidden">Sign in</span>
+      <Link href="/account" className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-line bg-white px-3 text-sm font-semibold text-brand shadow-card transition hover:border-slate-300 hover:bg-surface-2">
+        <CircleUserRound size={17} strokeWidth={1.75} aria-hidden /> Account
       </Link>
     );
   }
   return (
-    <Link href="/account" aria-label="Account" className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-line bg-white text-brand shadow-card transition hover:border-slate-300 hover:bg-surface-2">
-      <CircleUserRound size={18} strokeWidth={1.75} aria-hidden />
+    <Link href="/auth/sign-in?next=/sync" className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-line bg-white px-3 text-sm font-semibold text-ink shadow-card transition hover:border-slate-300 hover:bg-surface-2">
+      <LogIn size={16} strokeWidth={1.75} aria-hidden /> Sign in
     </Link>
   );
 }
