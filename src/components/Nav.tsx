@@ -1,56 +1,119 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Award, BadgeCheck, Building2, Compass, Heart, House, Search, type LucideIcon } from "lucide-react";
 import { Logo } from "./Logo";
 import { useBookmarks } from "@/lib/bookmarks";
 
-const links = [
-  { href: "/", label: "Home", icon: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
-  { href: "/courses", label: "Browse", icon: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm10 17l-5-5" },
-  { href: "/providers", label: "Providers", icon: "M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M14 9h5a1 1 0 0 1 1 1v11M8 8h2M8 12h2M8 16h2M3 21h18" },
-  { href: "/certificates", label: "Certificates", icon: "M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14l-1.5 7 5-3 5 3-1.5-7" },
-  { href: "/saved", label: "Saved", icon: "M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.1 0 3.6 1.1 5.2 3 1.6-1.9 3.1-3 5.2-3 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z" },
+const links: { href: string; label: string; icon: LucideIcon }[] = [
+  { href: "/", label: "Home", icon: House },
+  { href: "/courses", label: "Browse", icon: Compass },
+  { href: "/providers", label: "Providers", icon: Building2 },
+  { href: "/certificates", label: "Certificates", icon: Award },
+  { href: "/saved", label: "Saved", icon: Heart },
 ];
 
 function active(path: string, href: string) {
   return href === "/" ? path === "/" : path.startsWith(href);
 }
 
-export function Nav() {
+/** Desktop sidebar (lg and up). */
+export function Sidebar() {
   const path = usePathname();
   const { ids } = useBookmarks();
   return (
-    <>
-      <header className="sticky top-0 z-30 border-b border-line bg-surface/85 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" aria-label="CertiFree home"><Logo /></Link>
-          <nav className="hidden items-center gap-1 md:flex">
-            {links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`rounded-xl px-4 py-2 font-medium transition ${active(path, l.href) ? "bg-brand/10 text-brand" : "text-muted hover:text-ink"}`}
-              >
-                {l.label}
-                {l.href === "/saved" && ids.length > 0 && (
-                  <span className="ml-1.5 rounded-full bg-brand px-1.5 py-0.5 text-xs text-white">{ids.length}</span>
-                )}
-              </Link>
-            ))}
-          </nav>
-          <Link href="/courses?cost=free-cert" className="hidden rounded-xl bg-brand px-4 py-2.5 font-semibold text-white shadow-sm transition hover:bg-brand-600 sm:inline-flex">
-            Free certificates
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-line bg-surface lg:flex">
+      <div className="flex h-16 items-center px-6">
+        <Link href="/" aria-label="CertiFree home"><Logo /></Link>
+      </div>
+      <nav className="flex-1 space-y-1 px-3 py-4" aria-label="Main">
+        <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">Menu</p>
+        {links.map(({ href, label, icon: Icon }) => {
+          const on = active(path, href);
+          return (
+            <Link
+              key={href}
+              href={href}
+              aria-current={on ? "page" : undefined}
+              className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium transition-colors duration-150 ${on ? "bg-accent/[0.08] text-brand" : "text-muted hover:bg-surface-2 hover:text-ink"}`}
+            >
+              <Icon size={18} strokeWidth={1.75} className={on ? "text-accent" : "text-muted transition-colors group-hover:text-ink"} aria-hidden />
+              <span className="flex-1">{label}</span>
+              {href === "/saved" && ids.length > 0 && (
+                <span className="rounded-full bg-brand px-2 py-0.5 text-[11px] font-semibold text-white">{ids.length}</span>
+              )}
+            </Link>
+          );
+        })}
+      </nav>
+      <div className="m-3 rounded-2xl border border-line bg-surface-2 p-4">
+        <div className="flex items-center gap-2 text-sm font-semibold text-ink">
+          <BadgeCheck size={16} strokeWidth={1.75} className="text-accent" aria-hidden /> Free certificates
+        </div>
+        <p className="mt-1 text-xs leading-relaxed text-muted">Courses where both the learning and the credential cost nothing.</p>
+        <Link href="/courses?cost=free-cert" className="mt-3 inline-flex text-sm font-semibold text-accent hover:text-brand">
+          Explore →
+        </Link>
+      </div>
+    </aside>
+  );
+}
+
+/** Sticky top bar on every screen size. */
+export function TopBar() {
+  const path = usePathname();
+  const current = links.find((l) => active(path, l.href));
+  return (
+    <header className="sticky top-0 z-30 border-b border-line bg-white/80 backdrop-blur-xl backdrop-saturate-150">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+        <Link href="/" aria-label="CertiFree home" className="lg:hidden"><Logo /></Link>
+        <span className="hidden text-sm font-medium text-muted lg:block">{current?.label ?? "CertiFree"}</span>
+        <div className="flex flex-1 justify-end gap-3">
+          {!path.startsWith("/courses") && (
+            <form action="/courses" role="search" className="hidden w-full max-w-sm items-center gap-2 rounded-xl border border-line bg-surface-2 px-3 transition-colors focus-within:border-accent focus-within:bg-white md:flex">
+              <Search size={16} strokeWidth={1.75} className="shrink-0 text-muted" aria-hidden />
+              <input name="q" placeholder="Search courses" aria-label="Search courses" className="h-9 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted" />
+              <kbd className="hidden rounded-md border border-line bg-white px-1.5 text-[11px] font-medium text-muted xl:inline">↵</kbd>
+            </form>
+          )}
+          <Link href="/courses?cost=free-cert" className="hidden h-9 shrink-0 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white shadow-card transition hover:bg-brand-600 active:scale-[0.98] sm:inline-flex">
+            <BadgeCheck size={16} strokeWidth={1.75} aria-hidden /> Free certificates
           </Link>
         </div>
-      </header>
-      <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Main">
-        {links.map((l) => (
-          <Link key={l.href} href={l.href} className={`flex flex-col items-center gap-1 py-2.5 text-xs font-medium ${active(path, l.href) ? "text-brand" : "text-muted"}`}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={l.icon} /></svg>
-            {l.label}
+      </div>
+    </header>
+  );
+}
+
+/** Bottom tab bar on phones and tablets, where the sidebar is hidden. */
+export function BottomNav() {
+  const path = usePathname();
+  const { ids } = useBookmarks();
+  return (
+    <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-line bg-white/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden" aria-label="Main">
+      {links.map(({ href, label, icon: Icon }) => {
+        const on = active(path, href);
+        return (
+          <Link key={href} href={href} aria-current={on ? "page" : undefined} className={`relative flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors ${on ? "text-accent" : "text-muted"}`}>
+            <span className={`grid h-7 w-12 place-items-center rounded-full transition-colors ${on ? "bg-accent/[0.08]" : ""}`}>
+              <Icon size={20} strokeWidth={on ? 2 : 1.75} aria-hidden />
+            </span>
+            {label}
+            {href === "/saved" && ids.length > 0 && (
+              <span className="absolute right-[calc(50%-22px)] top-1.5 h-2 w-2 rounded-full bg-accent ring-2 ring-white" aria-label={`${ids.length} saved`} />
+            )}
           </Link>
-        ))}
-      </nav>
+        );
+      })}
+    </nav>
+  );
+}
+
+export function Nav() {
+  return (
+    <>
+      <Sidebar />
+      <BottomNav />
     </>
   );
 }

@@ -1,27 +1,34 @@
+import { BadgeCheck, Clock, Award, Medal, FileCheck2 } from "lucide-react";
 import { Cost, Credential, costLabels, credentialLabels } from "@/data/courses";
 
+const base = "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold ring-1 ring-inset";
+
 const costStyle: Record<Cost, string> = {
-  "free-cert": "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
-  "free-learn-paid-cert": "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
-  "free-learn-paid-exam": "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
-  "limited-time": "bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300",
-  "free-no-cert": "bg-slate-200 text-slate-700 dark:bg-slate-500/20 dark:text-slate-300",
+  "free-cert": "bg-emerald-50 text-[#047857] ring-emerald-600/15",
+  "free-learn-paid-cert": "bg-amber-50 text-amber-800 ring-amber-600/15",
+  "free-learn-paid-exam": "bg-amber-50 text-amber-800 ring-amber-600/15",
+  "limited-time": "bg-red-50 text-[#B91C1C] ring-red-600/15",
+  "free-no-cert": "bg-slate-50 text-slate-600 ring-slate-500/15",
 };
 
 export function CostTag({ cost }: { cost: Cost }) {
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${costStyle[cost]}`}>
-      {cost === "free-cert" && <span aria-hidden>✓</span>}
-      {cost === "limited-time" && <span aria-hidden>⏳</span>}
+    <span className={`${base} ${costStyle[cost]}`}>
+      {cost === "free-cert" && <BadgeCheck size={13} strokeWidth={2} aria-hidden />}
+      {cost === "limited-time" && <Clock size={13} strokeWidth={2} aria-hidden />}
       {costLabels[cost]}
     </span>
   );
 }
 
+const credIcon = { certificate: FileCheck2, badge: Medal, exam: Award } as const;
+
 export function CredentialTag({ credential }: { credential: Credential }) {
   if (credential === "none") return null;
+  const Icon = credIcon[credential];
   return (
-    <span className="inline-flex rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300">
+    <span className={`${base} bg-blue-50 text-[#1D4ED8] ring-blue-600/15`}>
+      <Icon size={13} strokeWidth={2} aria-hidden />
       {credentialLabels[credential]}
     </span>
   );

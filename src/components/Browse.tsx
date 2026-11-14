@@ -5,6 +5,7 @@ import { companies, platforms } from "@/data/providers";
 import { costLabels, domainLabels, levelLabels } from "@/data/courses";
 import { filterCourses, Filters } from "@/lib/filter";
 import { CourseCard } from "./CourseCard";
+import { Search, SlidersHorizontal, X, SearchX } from "lucide-react";
 
 const groups = [
   { key: "cost", title: "What's free", options: Object.entries(costLabels) },
@@ -56,7 +57,7 @@ export function Browse() {
     <div className="space-y-6">
       {groups.map((g) => (
         <fieldset key={g.title}>
-          <legend className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted">{g.title}</legend>
+          <legend className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">{g.title}</legend>
           <div className="flex flex-wrap gap-2">
             {g.options.map(([value, label]) => {
               const on = params.getAll(g.key).includes(value);
@@ -66,7 +67,7 @@ export function Browse() {
                   type="button"
                   aria-pressed={on}
                   onClick={() => toggle(g.key, value)}
-                  className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${on ? "border-brand bg-brand text-white" : "border-line bg-surface hover:border-brand hover:text-brand"}`}
+                  className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition duration-150 ${on ? "border-brand bg-brand text-white shadow-card" : "border-line bg-white text-ink hover:border-accent/40 hover:bg-accent/[0.04] hover:text-accent"}`}
                 >
                   {label}
                 </button>
@@ -76,42 +77,42 @@ export function Browse() {
         </fieldset>
       ))}
       {activeCount > 0 && (
-        <button type="button" onClick={() => update((p) => groups.forEach((g) => p.delete(g.key)))} className="text-sm font-semibold text-brand">
-          Clear all filters
+        <button type="button" onClick={() => update((p) => groups.forEach((g) => p.delete(g.key)))} className="inline-flex items-center gap-1 text-sm font-semibold text-accent hover:text-brand">
+          <X size={14} strokeWidth={2} aria-hidden /> Clear all filters
         </button>
       )}
     </div>
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-      <h1 className="font-display text-3xl font-bold">Browse free courses</h1>
-      <p className="mt-1 text-muted">Filter by what<h1 className="font-display text-3xl font-bold">Browse free courses</h1>apos;s free, domain, company or platform. Every course links straight to the provider.</p>
-      <div className="sticky top-16 z-20 -mx-4 mt-4 bg-bg/90 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <h1 className="font-display text-3xl font-bold text-ink sm:text-4xl">Browse free courses</h1>
+      <p className="mt-2 text-muted">Filter by what&apos;s free, domain, company or platform. Every course links straight to the provider.</p>
+      <div className="sticky top-16 z-20 -mx-4 mt-6 bg-white/85 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div className="flex gap-2">
-          <label className="flex min-w-0 flex-1 items-center gap-2 rounded-2xl border border-line bg-surface px-4 shadow-sm focus-within:border-brand">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted" aria-hidden><circle cx="11" cy="11" r="7" /><path d="M21 21l-5-5" /></svg>
-            <input value={q} onChange={(e) => onSearch(e.target.value)} placeholder="Search by course, company, platform or skill" aria-label="Search courses" className="min-w-0 flex-1 bg-transparent py-3 outline-none placeholder:text-muted" />
-            {q && <button type="button" onClick={() => onSearch("")} aria-label="Clear search" className="text-muted">✕</button>}
+          <label className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-line bg-white px-4 shadow-card transition-colors focus-within:border-accent/60">
+            <Search size={18} strokeWidth={1.75} className="shrink-0 text-muted" aria-hidden />
+            <input value={q} onChange={(e) => onSearch(e.target.value)} placeholder="Search by course, company, platform or skill" aria-label="Search courses" className="min-w-0 flex-1 bg-transparent py-3 text-[15px] outline-none placeholder:text-muted" />
+            {q && <button type="button" onClick={() => onSearch("")} aria-label="Clear search" className="rounded-md p-1 text-muted transition hover:bg-surface-2 hover:text-ink"><X size={16} strokeWidth={2} aria-hidden /></button>}
           </label>
-          <button type="button" onClick={() => setOpen(true)} className="shrink-0 rounded-2xl border border-line bg-surface px-4 font-semibold lg:hidden">
-            Filters{activeCount ? ` (${activeCount})` : ""}
+          <button type="button" onClick={() => setOpen(true)} className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-line bg-white px-4 text-sm font-semibold text-ink shadow-card transition hover:bg-surface-2 lg:hidden">
+            <SlidersHorizontal size={16} strokeWidth={1.75} aria-hidden /> Filters{activeCount ? ` (${activeCount})` : ""}
           </button>
         </div>
       </div>
 
-      <div className="mt-4 grid gap-8 lg:grid-cols-[280px_1fr]">
+      <div className="mt-4 grid gap-8 lg:grid-cols-[260px_1fr]">
         <aside className="hidden lg:block">
-          <div className="sticky top-36 max-h-[calc(100vh-10rem)] overflow-y-auto rounded-2xl border border-line bg-surface p-5">{panel}</div>
+          <div className="sticky top-36 max-h-[calc(100vh-10rem)] overflow-y-auto rounded-2xl border border-line bg-white p-5 shadow-card">{panel}</div>
         </aside>
         <section>
           <div className="mb-4 flex items-center justify-between gap-4">
-            <p className="text-muted" aria-live="polite"><b className="text-ink">{results.length}</b> course{results.length === 1 ? "" : "s"}</p>
+            <p className="text-sm text-muted" aria-live="polite"><b className="font-semibold text-ink">{results.length}</b> course{results.length === 1 ? "" : "s"}</p>
             <select
               value={filters.sort}
               onChange={(e) => update((p) => p.set("sort", e.target.value))}
               aria-label="Sort"
-              className="rounded-xl border border-line bg-surface px-3 py-2 text-sm"
+              className="rounded-xl border border-line bg-white px-3 py-2 text-sm font-medium text-ink shadow-card outline-none transition hover:border-slate-300 focus:border-accent/60"
             >
               <option value="relevance">Most relevant</option>
               <option value="short">Shortest first</option>
@@ -119,13 +120,13 @@ export function Browse() {
             </select>
           </div>
           {results.length ? (
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
               {results.map((c) => <CourseCard key={c.id} course={c} />)}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-line bg-surface p-10 text-center">
-              <div className="mb-2 text-4xl">🔎</div>
-              <p className="font-semibold">No courses match these filters.</p>
+            <div className="rounded-2xl border border-dashed border-line bg-surface-2 px-6 py-14 text-center">
+              <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-xl bg-white text-muted shadow-card ring-1 ring-inset ring-line"><SearchX size={22} strokeWidth={1.75} aria-hidden /></span>
+              <p className="font-semibold text-ink">No courses match these filters.</p>
               <p className="mt-1 text-muted">Try removing a filter or searching for something broader, like &quot;cloud&quot;.</p>
             </div>
           )}
@@ -134,11 +135,11 @@ export function Browse() {
 
       {open && (
         <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Filters">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
-          <div className="absolute inset-x-0 bottom-0 max-h-[80vh] overflow-y-auto rounded-t-3xl bg-surface p-5 pb-8 shadow-2xl">
-            <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-line" />
+          <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-sm" onClick={() => setOpen(false)} />
+          <div className="sheet-in absolute inset-x-0 bottom-0 max-h-[80vh] overflow-y-auto rounded-t-2xl bg-white p-5 pb-8 shadow-pop">
+            <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-slate-300" />
             {panel}
-            <button type="button" onClick={() => setOpen(false)} className="mt-6 w-full rounded-2xl bg-brand py-3 font-semibold text-white">
+            <button type="button" onClick={() => setOpen(false)} className="mt-6 w-full rounded-xl bg-brand py-3.5 font-semibold text-white transition hover:bg-brand-600 active:scale-[0.99]">
               Show {results.length} courses
             </button>
           </div>

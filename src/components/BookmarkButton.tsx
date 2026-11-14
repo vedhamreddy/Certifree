@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Heart } from "lucide-react";
 import { useBookmarks } from "@/lib/bookmarks";
 
 export function BookmarkButton({ id, withLabel = false }: { id: string; withLabel?: boolean }) {
@@ -17,11 +18,19 @@ export function BookmarkButton({ id, withLabel = false }: { id: string; withLabe
       }}
       aria-pressed={on}
       aria-label={on ? "Remove bookmark" : "Bookmark this course"}
-      className={`inline-flex items-center gap-2 rounded-full transition ${withLabel ? "border border-line bg-surface px-4 py-2.5 font-semibold hover:border-brand" : "p-1.5 hover:bg-surface-2"}`}
+      className={`inline-flex items-center gap-2 transition ${
+        withLabel
+          ? `h-11 rounded-xl border px-4 text-sm font-semibold active:scale-[0.98] ${on ? "border-accent/30 bg-accent/[0.06] text-brand" : "border-line bg-white text-ink hover:border-slate-300 hover:bg-surface-2"}`
+          : "rounded-lg p-1.5 text-muted hover:bg-surface-2 hover:text-accent"
+      }`}
     >
-      <svg key={anim} className={anim ? "pop" : ""} width="20" height="20" viewBox="0 0 24 24" fill={on ? "#4F46E5" : "none"} stroke="#4F46E5" strokeWidth="2" strokeLinejoin="round">
-        <path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.1 0 3.6 1.1 5.2 3 1.6-1.9 3.1-3 5.2-3 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z" />
-      </svg>
+      <Heart
+        key={anim}
+        size={18}
+        strokeWidth={1.75}
+        className={`${anim ? "pop" : ""} ${on ? "fill-accent text-accent" : ""}`}
+        aria-hidden
+      />
       {withLabel && (on ? "Saved" : "Save")}
     </button>
   );

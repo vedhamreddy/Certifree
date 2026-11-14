@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Poppins } from "next/font/google";
-import { Nav } from "@/components/Nav";
+import { Inter, Manrope } from "next/font/google";
+import { Nav, TopBar } from "@/components/Nav";
 import { RegisterSW } from "@/components/RegisterSW";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const poppins = Poppins({ variable: "--font-poppins", subsets: ["latin"], weight: ["600", "700"] });
+const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"], weight: ["600", "700", "800"] });
 
 export const metadata: Metadata = {
   title: { default: "CertiFree: every free certification in one place", template: "%s · CertiFree" },
@@ -16,18 +16,23 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#4F46E5",
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
-      <body className="font-sans antialiased">
+    <html lang="en" className={`${inter.variable} ${manrope.variable}`}>
+      <body className="font-sans text-ink antialiased">
         <Nav />
-        <main className="pb-24 md:pb-0">{children}</main>
-        <footer className="mx-auto max-w-7xl px-4 pb-28 pt-10 text-sm text-muted sm:px-6 md:pb-10">
-          CertiFree is an independent directory. Course names belong to their providers, and every link goes to the provider&apos;s own site. Free offers change, so confirm the details there before you enrol.
-        </footer>
+        <div className="min-h-dvh lg:pl-64">
+          <TopBar />
+          <main className="pb-24 lg:pb-0">{children}</main>
+          <footer className="mx-auto max-w-7xl px-4 pb-28 pt-12 sm:px-6 lg:px-8 lg:pb-12">
+            <div className="border-t border-line pt-6 text-sm leading-relaxed text-muted">
+              CertiFree is an independent directory. Course names belong to their providers, and every link goes to the provider&apos;s own site. Free offers change, so confirm the details there before you enrol.
+            </div>
+          </footer>
+        </div>
         <RegisterSW />
       </body>
     </html>
